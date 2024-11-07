@@ -7,9 +7,11 @@ const app = express();
 const PORT = 3000;
 app.use(cors())
 
-app.listen()
+app.listen(PORT, () => {
+  console.log("Listening on port " + PORT);
+})
 
-// Sample getTable
+/* Sample getTable
 sqllib.getTable("test", "users").then(function(result){
   console.log(result)
 }).catch(function(err){
@@ -17,7 +19,7 @@ sqllib.getTable("test", "users").then(function(result){
 });
 
 
-// Sample insertData
+ Sample insertData
 sqllib.insertData("test", "users", {
   "id": 1234567,
   "name": "Bobby",
@@ -25,5 +27,5 @@ sqllib.insertData("test", "users", {
 }).catch(function(err) {
   console.log(err);
 });
-
+*/
 
