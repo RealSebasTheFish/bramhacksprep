@@ -1,31 +1,35 @@
 const sqlite3 = require('sqlite3');
 
 module.exports = {
-    insertData
+    insertData,
+    getTable,
+    getRow
 }
 
+// Returns db, or throws an error
 function startConn (DBname) {
-    // Create or connect to an SQLite database
-    var db = new sqlite3.Database('./databases/' + DBname + ".db", (err) => {
-    if (err) {
-        return {
-            "db": null,
-            "response": err.message
-        }
+    try {
+        var db = new sqlite3.Database('./databases/' + DBname + ".db", function (err) {
+            if (err) {
+                throw err;
+            }
+        });
+        return db;
+    } catch(err) {
+        throw err;
     }
-  });
-  return {
-    "db": db,
-    "response": 'Connected to the SQLite database.'
-  }
+    
 }
 
-function insertData(DBname, table, info)
+
+// Throws error if not successful
+async function insertData(DBname, table, info)
 {
-    var response = startConn(DBname);
-    console.log(response);
-    var db = response["db"];
-    if (db == null) return response["response"];
+    try {
+        var db = startConn(DBname);
+    } catch (err) {
+        throw err
+    }
 
     var keys = Object.keys(info);
     var values = Object.values(info);
@@ -48,17 +52,67 @@ function insertData(DBname, table, info)
         }
     }
 
-    db.run(sql, [], function(err) {
-        if (err) {
-            db.close()
-            return(err.message);
-        }
-    });
+    
+    try {
+        var returnData = await new Promise((resolve, reject) => {
+            db.run(sql, [], function(err) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve("Successfully added new data!");
+                }
+            });
+        });
+        db.close();
+        return returnData;
+    } catch(err) {
+        db.close();
+        throw err;
+    }
+    
 
-    db.close()
-    return("Success!");
+    
 }
 
+// Returns data as rows, throws error otherwise
+async function getTable(DBname, table) {
+    try {
+        var db = startConn(DBname);
+    } catch (err) {
+        throw err
+    }
+
+    var sql = "SELECT * FROM " + table;
+    
+    try {
+        const returnData = await new Promise((resolve, reject) => {
+            db.all(sql, [], (err, rows) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
+
+        db.close();
+        return returnData;
+    } catch (err) {
+        db.close();
+        throw err
+    }
+    
+}
+
+function getRow(DBname, table, idrow, id) {
+
+}
+
+/*
+db.all(sql, params, callback); ---> Get all rows
+db.get(sql, params, callback); ---> Get first matching row
+/*
 
 /*
 async function getTable(table) {
