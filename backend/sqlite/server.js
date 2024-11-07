@@ -1,6 +1,13 @@
-// Import sqlite3 package
 const sqlite3 = require('sqlite3');
 const sqllib = require('./sql.js');
+
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const PORT = 3000;
+app.use(cors())
+
+app.listen()
 
 // Sample getTable
 sqllib.getTable("test", "users").then(function(result){
