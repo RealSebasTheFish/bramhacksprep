@@ -1,6 +1,6 @@
 const fs = require("fs");
 const crypto = require('crypto');
-const SESSION_TIMEOUT = 5; // Time in seconds for logout since last request
+const SESSION_TIMEOUT = 3600; // Time in seconds for logout since last request
 
 module.exports = {
     createSession,

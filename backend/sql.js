@@ -49,7 +49,7 @@ function insertInto(dBase, table, user) {
     console.log(error.message);
   }
 }
-// insertInto("./databases/main.db", "users", { username: "Sajad" });
+// insertInto("./databases/main.db", "users", { email: "sajasdfasasdfdafsdd@sajas.com", username: "SajsdasdffadReal", password: "sdbyfsdyuhfg", data:"{}" });
 // console.log(getTable("./databases/main.db", "users"));
 
 // user is and object;
@@ -125,7 +125,7 @@ function deleteRow(dBase, table, user) {
     console.log(error.message);
   }
 }
-// deleteRow("./databases/main.db", "users", { username: "Sajad" });
+// deleteRow("./databases/main.db", "users", { uid: 2 });
 // console.log(getTable("./databases/main.db", "users"));
 
 // const sqlite3 = require('sqlite3');

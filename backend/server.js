@@ -7,6 +7,15 @@ const app = express();
 const PORT = 3000;
 app.use(cors())
 
+app.post("/signup/", (req,res) => {
+
+  
+});
+
+app.post("/signin/", (req,res) => {
+
+});
+
 app.listen(PORT, () => {
   console.log("Listening on port " + PORT);
 })
