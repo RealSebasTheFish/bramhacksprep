@@ -1,6 +1,6 @@
 const fs = require("fs");
 const crypto = require('crypto');
-const SESSION_TIMEOUT = 10; // Time in seconds for logout since last request
+const SESSION_TIMEOUT = 5; // Time in seconds for logout since last request
 
 module.exports = {
     createSession,
@@ -60,7 +60,7 @@ async function createSession(userid) {
         
         authkey = await generateAuthKey();
         sessions.push({
-            "uid": userid,
+            "id": userid,
             "authkey": authkey,
             "timestamp": getUnixTime()
         });
