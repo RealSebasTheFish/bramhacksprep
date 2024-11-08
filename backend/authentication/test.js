@@ -1,4 +1,4 @@
-const auth = require("./authentication/auth.js");
+const auth = require("./auth.js");
 
 testCreate();
 
