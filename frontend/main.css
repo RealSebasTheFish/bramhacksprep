@@ -1,125 +1,79 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
+    font-family: "Trebuchet MS", Arial, sans-serif;
+  }
 
-body {
-    font-family: Arial, sans-serif;
+  :root {
+    --dark-blue: #0b2858;
+    --mid-blue: #608bc1;
+    --bright: #f3f3e0;
+    --light: #cbdceb;
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    background-color: #608cc1af;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: solid 2px var(--dark-blue);
+  }
+
+  .header h1 {
+    color: var(--dark-blue);
+  }
+
+  .header button {
+    color: var(--bright);
+    background-color: var(--dark-blue);
+    cursor: pointer;
+    border: solid 1px var(--bright);
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+
+  #menuBtn {
+    cursor: pointer;
+  }
+
+  #sidebar {
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    width: 200px;
+    height: 85vh;
+    background-color: #608cc1af;
+    backdrop-filter: blur(5px);
+    position: fixed;
+    left: 0;
+    border-bottom: solid 2px var(--dark-blue);
+    border-right: solid 2px var(--dark-blue);;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 15px;
+    top: 59px;
+  }
+
+  #sidebar ul {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-    background-image: url("./asset/wall.jpg");
-    background-size: cover;
-    background-attachment: fixed;
-}
-.top-bar {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-}
+  }
 
-.top-bar .title {
-    font-size: 24px;
-    font-weight: bold;
-    text-decoration:solid 2px rgb(11, 3, 116);
-    color: rgb(73, 137, 240);
-}
-
-.top-bar .account {
-    position: relative;
-    cursor: pointer;
-}
-
-.account-icon {
-    width: 24px;
-    height: 24px;
-}
-
-.account-menu {
-    position: absolute;
-    top: 30px;
-    right: 0;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    display: none;
-    z-index: 1000;
-}
-
-.account-menu a {
-    display: block;
-    padding: 10px;
+  #sidebar a {
     text-decoration: none;
     color: black;
-    font-size: 14px;
-    border-bottom: 1px solid #e0e0e0;
-}
+    font-size: 1.05rem;
+  }
 
-.account-menu a:hover {
-    background-color: #f0f0f0;
-}
-
-.main-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-}
-
-.menu-box {
-    width: 400px;
-    padding: 30px;
-    background: linear-gradient(to bottom right, #555555, #222222);
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.727);
+  #sidebar li {
+    padding: 15px 0px;
+    text-decoration: none;
+    list-style: none;
+    width: 100%;
     text-align: center;
-}
-
-.menu-box h1 {
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: white;
-}
-
-.menu-item {
-    display: block;
-    padding: 15px;
-    margin: 10px 0;
-    background-color: #ffffff;
-    border-radius: 30px;
-    color: black;
-    font-size: 16px;
-    font-style:italic ;
-    text-decoration: none;
-    transition: transform 0.3s ease;
-    font-weight: 800;
-}
-
-.menu-item:hover {
-    transform: translateX(-10px);
-}
-
-.bottom-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-}
-
-.bottom-bar a {
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    font-size: 14px;
-
-}
-
-.emergency-button {
-    width: 24px;
-    height: 24px;
-}
+    border-bottom: solid 2px black;
+  }

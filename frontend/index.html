@@ -2,87 +2,7 @@
 <html>
   <head>
     <title>Pathwise Template</title>
-    <link rel="stylesheet" type="text/css" href="template.css" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-      }
-
-      :root {
-        --dark-blue: #0b2858;
-        --mid-blue: #608bc1;
-        --bright: #f3f3e0;
-        --light: #cbdceb;
-      }
-
-      .header {
-        position: sticky;
-        top: 0;
-        background-color: #608cc1af;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-        border-bottom: solid 2px var(--dark-blue);
-      }
-
-      .header h1 {
-        color: var(--dark-blue);
-      }
-
-      .header button {
-        color: var(--bright);
-        background-color: var(--dark-blue);
-        cursor: pointer;
-        border: solid 1px var(--bright);
-        border-radius: 5px;
-        padding: 10px 15px;
-      }
-
-      #menuBtn {
-        cursor: pointer;
-      }
-
-      #sidebar {
-        z-index: 10000;
-        display: none;
-        border: solid 2px var(--dark-blue);
-        justify-content: center;
-        width: 200px;
-        height: 85vh;
-        background-color: #608cc1af;
-        backdrop-filter: blur(5px);
-        position: fixed;
-        top: 70px;
-        left: 0;
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
-      }
-
-      #sidebar ul {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      #sidebar a {
-        text-decoration: none;
-        color: black;
-        font-size: 1.05rem;
-      }
-
-      #sidebar li {
-        padding: 15px 0px;
-        text-decoration: none;
-        list-style: none;
-        width: 100%;
-        text-align: center;
-        border-bottom: solid 2px black;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="main.css" />
     <script>
       function openSidebar() {
         document.getElementById("sidebar").style.display = "flex";
@@ -115,14 +35,14 @@
         />
       </svg>
       <h1>BramWays</h1>
-      <button>Login/SignUp</button>
+      <a href="/frontend/login/index.html"><button>Login/SignUp</button></a>
     </div>
     <div id="sidebar">
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Map</a></li>
-        <li><a href="#">Accounts</a></li>
-        <li><a href="#">Promo</a></li>
+        <li><a href="/frontend/index.html">Home Page</a></li>
+        <li><a href="/frontend/interactivemap/index.html">Map</a></li>
+        <li><a href="/frontend/accounts/index.html">Accounts</a></li>
+        <!--<li><a href="/frontend/promo/index.html">Promotion</a></li>-->
       </ul>
     </div>
   </body>
