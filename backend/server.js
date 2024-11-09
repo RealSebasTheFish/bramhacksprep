@@ -1,4 +1,4 @@
-const sqlite3 = require("sqlite3");
+const socketio = require("socket.io");
 const transitLabels = require("./transitlabels.json");
 const transitData = require("./transitdata.json");
 const {
@@ -18,7 +18,12 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = 3000;
+
 app.use(cors());
+const server = app.listen(port, function () {
+  console.log("Listening on port " + PORT);
+});
+const io = socketio(server);
 app.use(express.json()); // Middleware for JSON parsing
 
 app.get("/transitlabels/", (req, res) => {
@@ -106,12 +111,15 @@ app.get("/linkchild", (req, res) => {
 
 app.get("/get-location", (req, res) => {
   var location = req.query;
-  console.log(location.coords);
-});
+  // console.log(location.coords);
 
-// Start the server
-app.listen(PORT, () => {
-  console.log("Listening on port " + PORT);
+  io.on("connection", (socket) => {
+    console.log("New connection");
+
+    socket.on("send_location", (data) => {
+      socket.emit("messageRecieved", data);
+    });
+  });
 });
 
 /* Sample getTable

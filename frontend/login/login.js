@@ -17,7 +17,7 @@ function storeLoginData() {
   const loginUsernameEmail =
     document.getElementById("loginUsernameEmail").value;
   const loginPassword = document.getElementById("loginPassword").value; //console.log("Login Data:", { loginUsernameEmail, loginPassword }); // checking
-  const shaPassword = hashPassword(signUpPassword);
+  const shaPassword = hashPassword(loginPassword);
   const user = {
     username: loginUsernameEmail,
     password: shaPassword,
