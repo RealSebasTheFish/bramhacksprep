@@ -20,6 +20,7 @@
   justify-content: space-between;
   padding: 10px 20px;
   border-bottom: solid 2px var(--dark-blue);
+  height: 10vh;
 }
 
 .header h1 {
