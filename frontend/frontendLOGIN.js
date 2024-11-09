@@ -19,8 +19,11 @@ function storeLoginData() {
     password: loginPassword,
   };
   $.getJSON(`${URL}/signin`, user, (data) => {
-    console.log(data);
+    console.log(data.result);
+    localStorage.setItem("authKey", data.authKey);
+    console.log(localStorage.getItem("authKey"));
   });
+  return false;
 }
 
 // store sign up form inputs
@@ -35,11 +38,11 @@ function storeSignUpData() {
     username: signUpUsername,
     email: signUpEmail,
     password: signUpPassword,
-    type: accountType,
+    data: { type: accountType },
   };
 
   $.getJSON(`${URL}/signup`, user, (data) => {
-    console.log(data);
+    console.log(data.result);
   });
 }
 

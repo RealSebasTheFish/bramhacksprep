@@ -1,4 +1,8 @@
-const sqlite3 = require("sqlite3");
+const {
+  createSession,
+  authSession,
+  removeSession,
+} = require("./authentication/auth.js");
 const {
   insertInto,
   getTable,
@@ -15,26 +19,35 @@ app.use(cors());
 
 app.get("/signup/", (req, res) => {
   var user = req.query;
-  var data = JSON.stringify({ type: user.type, saved_routes: [], points: 0 });
-  user.data = data;
+  user.data = JSON.stringify({ ...user.data, saved_routes: [], points: 0 });
+  // console.log(user);
   const result = insertInto("./databases/main.db", "users", user);
   const resultArr = result.split(":");
   // console.log(resultArr);
   res.setHeader("Access-Control-Allow-Origin", "*");
   if (resultArr[0] == "UNIQUE constraint failed") {
-    console.log("choose a different " + resultArr[1].split(".")[1]);
+    // console.log("choose a different " + resultArr[1].split(".")[1]);
     res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
   }
-  console.log(result);
-  res.send({ result: "user added" });
+  res.send({ result: "User added!" });
 });
-// deleteRow("./databases/main.db", "users", { uid: 1 });
-// console.log(getTable("./databases/main.db", "users"));
 
 app.get("/signin/", (req, res) => {
   var user = req.query;
   const row = getRow("./databases/main.db", "users", user);
-  // console.log(row);
+  if (user.username == row.username && user.password == row.password) {
+    createSession(user.username)
+      .then((authkey) => {
+        console.log(authKey);
+        res.send({ authkey: authkey });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  } else {
+    console.log("Wrong info");
+    res.send({ result: "Wrong info!" });
+  }
 });
 
 app.listen(PORT, () => {
