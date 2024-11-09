@@ -126,15 +126,3 @@ body {
     width: 24px;
     height: 24px;
 }
-
-/* Animations */
-@keyframes slideOutLeft {
-    0% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
-}

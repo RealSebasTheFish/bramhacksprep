@@ -5,8 +5,20 @@
     <title>BramWays</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="./menu.js"></script>
     <link rel="stylesheet" href="menu.css" type="text/css" />
+    <style>
+        /* Animations */
+@keyframes slideOutLeft {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+    </style>
 </head>
 <body>
     <!-- Top bar -->
@@ -47,5 +59,33 @@
             </svg>
         </div>
     </div>
+
+    <script>
+        // Show/hide account menu on hover
+        $('.account').hover(
+            function () {
+                $('.account-menu').fadeIn();
+            },
+            function () {
+                $('.account-menu').fadeOut();
+            }
+        );
+
+        // jQuery animation to slide out the menu and go to another page (placeholder links)
+        function animateAndRedirect(buttonId) {
+            $(buttonId).on('click', function (e) {
+                e.preventDefault();
+                $('#menuBox').css('animation', 'slideOutLeft 0.5s forwards');
+                setTimeout(function () {
+                    window.location.href = ''; // Placeholder, no URL provided
+                }, 500);
+            });
+        }
+
+        // Apply animation for all menu buttons
+        animateAndRedirect('#mapBtn');
+        animateAndRedirect('#accountBtn');
+        animateAndRedirect('#awardsBtn');
+    </script>
 </body>
 </html>
