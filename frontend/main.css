@@ -5,12 +5,12 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    background-image: url("./asset/menu.jpg");
+    background-image: url("./asset/wall.jpg");
     background-size: cover;
     background-attachment: fixed;
 }
@@ -19,14 +19,12 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.314);
-    backdrop-filter: blur(5px);
-    border-bottom: solid 1px rgb(2, 21, 54);
 }
 
 .top-bar .title {
     font-size: 24px;
     font-weight: bold;
+    text-decoration:solid 2px rgb(11, 3, 116);
     color: rgb(73, 137, 240);
 }
 
@@ -74,7 +72,7 @@ body {
 .menu-box {
     width: 400px;
     padding: 30px;
-    background: linear-gradient(135deg, rgb(236, 236, 236), #ffffff);
+    background: linear-gradient(to bottom right, #555555, #222222);
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -86,20 +84,21 @@ body {
 .menu-box h1 {
     font-size: 22px;
     margin-bottom: 20px;
+    color: white;
 }
 
 .menu-item {
     display: block;
     padding: 15px;
     margin: 10px 0;
-    background-color: #7a7a7a5d;
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.727);
+    background-color: #ffffff;
     border-radius: 30px;
     color: black;
     font-size: 16px;
-    font-weight: bold;
+    font-style:italic ;
     text-decoration: none;
     transition: transform 0.3s ease;
+    font-weight: 800;
 }
 
 .menu-item:hover {
@@ -111,8 +110,6 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background: linear-gradient(135deg, white, #514f4f);
-    border-top: solid 1px rgb(2, 21, 54);
 }
 
 .bottom-bar a {
