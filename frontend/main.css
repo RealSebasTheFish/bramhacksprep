@@ -9,3 +9,28 @@ document, body {
     position: relative;
     z-index: 0;
 }
+
+nav {
+    background-color: white;
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 12vh;
+    z-index: 1;
+    border-bottom: solid thin black;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#menuBtn {
+
+}
+
+#accountBtn {
+
+}
+
+#searchBtn {
+    
+}
