@@ -51,6 +51,25 @@ function storeSignUpData() {
   return false;
 }
 
+function linkChild() {
+  const authKey = localStorage.getItem("authKey");
+  // change these to dynamic values
+  const childUsername = "wef";
+  const childPassword = "we";
+  const childEmail = "sdf";
+  var info = {
+    parent: { authKey: authKey },
+    child: {
+      username: childUsername,
+      email: childEmail,
+      password: childPassword,
+    },
+  };
+  $.getJSON(`${URL}/linkchild`, info, (data) => {
+    console.log(data.result);
+  });
+}
+
 // store forgot password input
 function storeForgotPasswordData() {
   const forgotUsernameEmail = document.getElementById(

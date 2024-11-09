@@ -36,17 +36,16 @@ app.get("/transit/", function (req, res) {
 // Endpoint for getting transit locations based on shape IDs (fixed logic)
 app.get("/transitlocations/", function (req, res) {
   const route_id = req.query.route_id;
-  
+
   if (route_id && transitLabels[route_id]) {
     const shape_ids = transitLabels[route_id].shapeids;
-    const longLat = shape_ids.map(id => transitData[id]).filter(Boolean); // Get longLat only if available
+    const longLat = shape_ids.map((id) => transitData[id]).filter(Boolean); // Get longLat only if available
 
     res.send({ longLat: longLat });
   } else {
     res.status(400).send({ error: "Invalid or missing route_id" });
   }
 });
-
 
 app.get("/signin/", (req, res) => {
   var user = req.query;
@@ -79,6 +78,31 @@ app.get("/signup/", (req, res) => {
     res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
   }
   res.send({ result: "User added!" });
+});
+
+// this gets called from and Adult account;
+// child object -> username, email, password
+// data object in the users table will have a "connection" key
+// childOf or parentOf -> username
+app.get("/linkchild", (req, res) => {
+  var child = req.query.child; // format of info: {parent: {authKey: someValue}, child: {username: , email: , password}}
+  var isInDb = getRow("./databases/main.db", "users", child);
+  if (child == isInDb) {
+    var authKey = req.query.parent.authKey;
+    var id = authKey(authKey);
+    var row = getRow("./databases/main.db", "users", { uid: id });
+    var data = JSON.parse(row.data);
+    data = JSON.stringify({ ...data, childOf: row.username });
+    var result = updateRow(
+      "./databases/main.db",
+      "users",
+      { uid: id },
+      { data: data }
+    );
+    res.send({ result: result });
+  } else {
+    res.send({ result: "child account not found!" });
+  }
 });
 
 // Start the server
