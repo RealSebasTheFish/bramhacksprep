@@ -1,4 +1,6 @@
 const sqlite3 = require("sqlite3");
+const transitLabels = require("./transitlabels.json");
+const transitData = require("./transitdata.json");
 const {
   insertInto,
   getTable,
@@ -26,6 +28,26 @@ app.get("/signup/", (req, res) => {
   console.log(result);
   res.send({ result: "user added" });
 });
+
+app.get("/transit/", function (req, res) {
+  //gets the information from user, then the object associated with the route_id
+  var requestData = req.body;
+  res.set("Content-Type", "application/json");
+
+  var routeObject = requestData["route_id"];
+  console.log(routeObject);
+
+  res.send({ routeObject: routeObject });
+});
+
+app.get("/transitlocations/", function (req, res) {
+  //gets the shape id, then the longLat
+  var shape_ids = transitLabels[route_id].shapeids;
+  var longLat = transitData[shape_ids];
+
+  res.send({ longLat: longLat });
+});
+
 // deleteRow("./databases/main.db", "users", { uid: 1 });
 // console.log(getTable("./databases/main.db", "users"));
 
