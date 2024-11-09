@@ -8,15 +8,19 @@ function showForm(formId) {
 
   document.getElementById(formId).style.display = "block";
 }
-
+function hashPassword(password) {
+  const hash = CryptoJS.SHA256(password);
+  return hash.toString(CryptoJS.enc.Hex);
+}
 // store login form inputs
 function storeLoginData() {
   const loginUsernameEmail =
     document.getElementById("loginUsernameEmail").value;
   const loginPassword = document.getElementById("loginPassword").value; //console.log("Login Data:", { loginUsernameEmail, loginPassword }); // checking
+  const shaPassword = hashPassword(signUpPassword);
   const user = {
     username: loginUsernameEmail,
-    password: loginPassword,
+    password: shaPassword,
   };
   $.getJSON(`${URL}/signin`, user, (data) => {
     console.log(data.result);
@@ -33,17 +37,18 @@ function storeSignUpData() {
   const signUpPassword = document.getElementById("signUpPassword").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
   const accountType = document.getElementById("accountType").value;
-  //console.log("Sign Up Data:", { signUpUsername, signUpEmail, signUpPassword, confirmPassword }); // checking
+  const shaPassword = hashPassword(signUpPassword);
   const user = {
     username: signUpUsername,
     email: signUpEmail,
-    password: signUpPassword,
+    password: shaPassword,
     data: { type: accountType },
   };
 
   $.getJSON(`${URL}/signup`, user, (data) => {
     console.log(data.result);
   });
+  return false;
 }
 
 // store forgot password input
