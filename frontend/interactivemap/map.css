@@ -34,6 +34,7 @@ body {
 .mapsection {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 #sidebar ul {
