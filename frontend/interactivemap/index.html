@@ -98,8 +98,7 @@
         console.log("Checked!");
         if (document.getElementById(check).checked) {
           addLine(routes[route_id]);
-        }
-        else {
+        } else {
           removeLine(routes[route_id]);
         }
       }
@@ -157,9 +156,15 @@
 
       async function drawRoute(route_id) {
         return new Promise((resolve, reject) => {
-          $.getJSON(`http://${URL}/transit/`, { route_id: route_id }, function (dataO) {
+          $.getJSON(
+            `http://${URL}/transit/`,
+            { route_id: route_id },
+            function (dataO) {
               localTransitData[route_id] = dataO;
-              $.getJSON(`http://${URL}/transitlocations/`, { shapeids: dataO.shapeids }, (data) => {
+              $.getJSON(
+                `http://${URL}/transitlocations/`,
+                { shapeids: dataO.shapeids },
+                (data) => {
                   var full_shape = [];
                   for (var i = 0; i < data.locations.length; i++) {
                     var currPath = [];
@@ -204,7 +209,7 @@
     </script>
   </head>
   <body>
-    <nav>
+    <div class="header">
       <svg
         onclick="openSidebar()"
         id="menuBtn"
@@ -212,28 +217,44 @@
         height="30"
         viewBox="0 -960 960 960"
         width="30"
-        fill="black"
+        fill="white"
       >
         <path
           d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
         />
       </svg>
-      <div id="searchBar"></div>
-      <svg
-        width="30"
-        id="accountBtn"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 448 512"
-      >
-        <path
-          d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"
-        />
-      </svg>
-    </nav>
+      <h1>BramWays</h1>
+      <button>Login/SignUp</button>
+    </div>
+    <div id="sidebar">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Map</a></li>
+        <li><a href="#">Accounts</a></li>
+        <li><a href="#">Promo</a></li>
+      </ul>
+    </div>
     <div id="map"></div>
     <div id="search_bar_div">
       <div id="searchresults"></div>
       <input type="text" id="search_bar" oninput="onSearch();" placeholder="Search Bar" />
     </div>
+    <input type="text" class="search_bar" placeholder="Search Bar" />
+    <div id="checktest"></div>
+    <script>
+      function openSidebar() {
+        document.getElementById("sidebar").style.display = "flex";
+        document
+          .getElementById("menuBtn")
+          .setAttribute("onclick", "closeSidebar()");
+      }
+      // when you click the X icon, this function closes the sidebar
+      function closeSidebar() {
+        document.getElementById("sidebar").style.display = "none";
+        document
+          .getElementById("menuBtn")
+          .setAttribute("onclick", "openSidebar()");
+      }
+    </script>
   </body>
 </html>
