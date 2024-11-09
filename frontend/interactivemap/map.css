@@ -71,17 +71,18 @@ svg {
 #sidebar {
   z-index: 100;
   display: none;
-  border: solid 2px var(--dark-blue);
   justify-content: center;
   width: 200px;
   height: 85vh;
   background-color: #608cc1af;
   backdrop-filter: blur(5px);
   position: fixed;
-  top: 70px;
   left: 0;
-  border-top-right-radius: 15px;
+  border-bottom: solid 2px var(--dark-blue);
+  border-right: solid 2px var(--dark-blue);;
+  border-top-right-radius: 0px;
   border-bottom-right-radius: 15px;
+  top: 59px;
 }
 
 #map {
