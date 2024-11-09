@@ -3,7 +3,7 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image:url("./asset/wall.jpg");
+    background-image:url("../asset/wall.jpg");
     background-size:   cover;
     background-attachment: fixed;
 }
