@@ -66,6 +66,10 @@
         });
 
         initializeRoutes();
+
+        getDestRoute({lat: 43.984523, long: -79.469344},{lat: 44.047122, long: -79.427391}).then((data) => {
+          drawDestRoute(data);
+        });
       }
 
       function initializeRoutes() {
@@ -223,6 +227,171 @@
           );
         });
       }
+
+      function drawDestRoute(route) {
+        console.log(route)
+        for (var i = 0; i < route.length; i++) {
+          var currSec = route[i];
+          var color = null;
+          if (currSec["type"] == "walk") color = "#4444FF";
+          if (currSec["type"] == "transit") color = "#FF0000";
+          else color = "#00FF00"
+          
+          var coords = []
+          for (var j = 0; j < currSec["polylines"].length; j++) {
+            var decodedPath = google.maps.geometry.encoding.decodePath(currSec["polylines"][j]);
+            for (var k = 0; k < decodedPath.length; k++) {
+              coords.push(decodedPath[k]);
+            }
+            console.log(coords);
+          }
+          console.log(coords);
+          var routePolyline = new google.maps.Polyline({
+            path: coords,
+            geodesic: true,
+            strokeColor: color,
+            strokeOpacity: 1.0,
+            strokeWeight: 4,
+          });
+          routePolyline.setMap(map);
+        }
+      }
+
+      async function getDestRoute(start, end) {
+        return new Promise((resolve, reject) => {
+          const jsonData = {
+            origin: {
+              location: {
+                latLng: {
+                  latitude: start.lat,
+                  longitude: start.long
+                }
+              }
+            },
+            destination: {
+              location: {
+                latLng: {
+                  latitude: end.lat,
+                  longitude: end.long
+                }
+              }
+            },
+            travelMode: "TRANSIT",
+            // routingPreference: "TRAFFIC_AWARE", // Uncomment if needed
+            computeAlternativeRoutes: false,
+            routeModifiers: {
+              avoidTolls: false,
+              avoidHighways: false,
+              avoidFerries: false
+            },
+            languageCode: "en-US",
+            units: "METRIC",
+            departureTime: new Date().toISOString()
+          };
+
+          // Set headers as needed
+          const headers = {
+              "X-Goog-FieldMask": "routes.legs,routes.distanceMeters,routes.polyline.encodedPolyline",
+              "Content-Type": "application/json"
+          }
+
+          $.ajax({
+            url: "https://routes.googleapis.com/directions/v2:computeRoutes?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y",
+            method: "POST",
+            headers: headers,
+            data: JSON.stringify(jsonData),
+            success: function(data) {
+              const routeSteps = data.routes[0].legs[0].steps;
+              const output = [];
+
+              routeSteps.forEach(step => {
+                const travelMode = step.travelMode;
+
+                if (travelMode === "WALK" || travelMode === "BICYCLE") {
+                  output.push({
+                    type: travelMode.toLowerCase(),
+                    duration: parseInt(step.staticDuration),
+                    path: [
+                      {
+                        latitude: step.startLocation.latLng.latitude,
+                        longitude: step.startLocation.latLng.longitude
+                      },
+                      {
+                        latitude: step.endLocation.latLng.latitude,
+                        longitude: step.endLocation.latLng.longitude
+                      }
+                    ],
+                    polylines: [step.polyline.encodedPolyline]
+                  });
+                } else if (travelMode === "TRANSIT") {
+                  output.push({
+                    type: "transit",
+                    duration: parseInt(step.staticDuration),
+                    start: {
+                      name: step.transitDetails.stopDetails.departureStop.name,
+                      time: step.transitDetails.stopDetails.departureTime
+                    },
+                    finish: {
+                      name: step.transitDetails.stopDetails.arrivalStop.name,
+                      time: step.transitDetails.stopDetails.arrivalTime
+                    },
+                    path: [
+                      {
+                        latitude: step.transitDetails.stopDetails.departureStop.location.latLng.latitude,
+                        longitude: step.transitDetails.stopDetails.departureStop.location.latLng.longitude
+                      },
+                      {
+                        latitude: step.transitDetails.stopDetails.arrivalStop.location.latLng.latitude,
+                        longitude: step.transitDetails.stopDetails.arrivalStop.location.latLng.longitude
+                      }
+                    ],
+                    polylines: [step.polyline.encodedPolyline]
+                  });
+                }
+              });
+
+              const refit = [];
+              let lastMode = "";
+              let current = {};
+              let loaded = false;
+
+              output.forEach((item, index) => {
+                if (index !== 0) {
+                  if (item.type !== "transit" && item.type === lastMode) {
+                    loaded = true;
+                    current = {
+                      type: item.type,
+                      duration: current.duration + item.duration,
+                      path: current.path,
+                      polylines: current.polylines
+                    };
+                    current.path.push(item.path[1]);
+                    current.polylines.push(item.polylines[0]);
+                    if (index === output.length - 1) {
+                      refit.push(current);
+                    }
+                  } else {
+                    lastMode = item.type;
+                    refit.push(current);
+                    current = item;
+                    loaded = false;
+                  }
+                } else {
+                  lastMode = item.type;
+                  current = item;
+                }
+              });
+
+              resolve(refit); // Final processed output
+            },
+            error: function(error) {
+              reject(error);
+            }
+          });
+        });
+      }
+
+      
     </script>
   </head>
   <body>
