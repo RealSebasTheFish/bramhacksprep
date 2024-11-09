@@ -15,14 +15,15 @@ const {
 } = require("./sql.js");
 
 const express = require("express");
-const cors = require("cors");const app = express();
+const cors = require("cors");
+const app = express();
 const PORT = 3000;
 app.use(cors());
 app.use(express.json()); // Middleware for JSON parsing
 
 app.get("/transitlabels/", (req, res) => {
-  res.send({labels: Object.keys(transitLabels)})
-})
+  res.send({ labels: Object.keys(transitLabels) });
+});
 
 app.get("/transit/", function (req, res) {
   //gets the information from user, then the object associated with the route_id
@@ -101,6 +102,11 @@ app.get("/linkchild", (req, res) => {
   } else {
     res.send({ result: "child account not found!" });
   }
+});
+
+app.get("/get-location", (req, res) => {
+  var location = req.query;
+  console.log(location.coords);
 });
 
 // Start the server

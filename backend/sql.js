@@ -20,7 +20,7 @@ function getTable(dBase, table) {
   }
   return users;
 }
-// console.log(getTable("./databases/main.db", "users"));
+console.log(getTable("./databases/main.db", "users"));
 
 // database & table: String; user: Object;
 // inserts all the attributes of user into the table;
