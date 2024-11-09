@@ -1,0 +1,90 @@
+/*Login page css for bramhacks (test)*/
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image:url("wall.jpg");
+    background-size:   cover;
+}
+
+/* center_container */
+.vh-100 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* gray gradient background for tge login rectangle*/
+.gradient-custom {
+    background: #333333;
+    background: linear-gradient(to bottom right, #555555, #222222);
+    border-radius: 1rem;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.8);
+
+}
+
+/* form elements */
+.form-outline {
+    margin-bottom: 1rem;
+    color: #fff;
+    text-align: left;
+}
+
+/*The label of the bars for input*/
+.form-label {
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+}
+
+/*Css for the bars for input*/
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #ddd;
+    border: none;
+    border-radius: 0.3rem;
+    box-sizing: border-box;
+}
+
+/*the css for the buttons*/
+.btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #666;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+/*css for when mouse is on the buttons and the color changes*/
+.btn:hover {
+    background-color: #777;
+}
+
+/**/
+.text-center {
+    text-align: center;
+    color: #ccc;
+}
+
+/**/
+.text-center a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+/**/
+.text-center a:hover {
+    text-decoration: underline;
+}
