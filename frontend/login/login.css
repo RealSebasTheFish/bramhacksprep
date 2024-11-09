@@ -1,4 +1,100 @@
 /*Login page css for bramhacks (test)*/
+#logo{
+  border-radius: 35px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+:root {
+  --dark-blue: #0b2858;
+  --mid-blue: #608bc1;
+  --bright: #f3f3e0;
+  --light: #cbdceb;
+}
+
+body {
+  /*background-color: var(--bright);*/
+  background-image: url("../asset/9145838.jpg");
+  backdrop-filter: blur(3px);
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background-color: #608cc1af;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: solid 2px var(--dark-blue);
+  z-index: 1000;
+}
+
+.header h1 {
+  color: var(--dark-blue);
+}
+
+.header button {
+  color: var(--bright);
+  background-color: var(--dark-blue);
+  cursor: pointer;
+  border: solid 1px var(--bright);
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+#menuBtn {
+  cursor: pointer;
+}
+
+#sidebar {
+  z-index: 10000;
+  display: none;
+  justify-content: center;
+  width: 200px;
+  height: 85vh;
+  background-color: #608cc1af;
+  backdrop-filter: blur(5px);
+  position: fixed;
+  left: 0;
+  border-bottom: solid 2px var(--dark-blue);
+  border-right: solid 2px var(--dark-blue);
+  top: 59px;
+}
+
+#sidebar ul {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#sidebar a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.05rem;
+}
+
+#sidebar li {
+  padding: 15px 0;
+  list-style: none;
+  width: 100%;
+  text-align: center;
+  border-bottom: solid 2px black;
+}
 body,
 html {
   height: 100%;
