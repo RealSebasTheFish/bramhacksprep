@@ -1,71 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Account Management</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css" />
     <script>
-        function openSidebar() {
-          document.getElementById("sidebar").style.display = "flex";
-          document
-            .getElementById("menuBtn")
-            .setAttribute("onclick", "closeSidebar()");
-        }
-  
-        function closeSidebar() {
-          document.getElementById("sidebar").style.display = "none";
-          document
-            .getElementById("menuBtn")
-            .setAttribute("onclick", "openSidebar()");
-        }
-      </script>
-</head>
-<body>
+      function openSidebar() {
+        document.getElementById("sidebar").style.display = "flex";
+        document
+          .getElementById("menuBtn")
+          .setAttribute("onclick", "closeSidebar()");
+      }
+
+      function closeSidebar() {
+        document.getElementById("sidebar").style.display = "none";
+        document
+          .getElementById("menuBtn")
+          .setAttribute("onclick", "openSidebar()");
+      }
+    </script>
+  </head>
+  <body>
     <div class="header">
-        <svg
-          onclick="openSidebar()"
-          id="menuBtn"
-          xmlns="http://www.w3.org/2000/svg"
-          height="30"
-          viewBox="0 -960 960 960"
-          width="30"
-          fill="white"
-        >
-          <path
-            d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-          />
-        </svg>
-        <h1>BramWays</h1>
-        <a href="/frontend/login/index.html"><button>Login/SignUp</button></a>
-      </div>
-      <div id="sidebar">
-        <ul>
-          <li><a href="/frontend/index.html">Home Page</a></li>
-          <li><a href="/frontend/interactivemap/index.html">Map</a></li>
-          <li><a href="/frontend/accounts/index.html">Accounts</a></li>
-          <!--<li><a href="/frontend/promo/index.html">Promotion</a></li>-->
-        </ul>
-      </div>
-    <div class="container">
-        <!-- main user profile and username  -->
-        <div class="main-profile">
-            <div class="profile-photo large-photo"></div>
-            <h2 class="username">Main User</h2>
-        </div>
-        
-        <!-- sub accounts -->
-        <div class="sub-accounts">
-            <!-- test sub account for styling but delete for actual usage -->
-            <div class="sub-account">
-                <div class="profile-photo small-photo"></div>
-                <p class="username small-username">Sub Account 1</p>
-            </div>
-            <!-- add account button -->
-            <div class="add-account">
-                <button id="addAccountButton">+ Add Account</button>
-            </div>
-        </div>
+      <svg
+        onclick="openSidebar()"
+        id="menuBtn"
+        xmlns="http://www.w3.org/2000/svg"
+        height="30"
+        viewBox="0 -960 960 960"
+        width="30"
+        fill="white"
+      >
+        <path
+          d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+        />
+      </svg>
+      <h1>BramWays</h1>
+      <a href="/frontend/login/index.html"><button>Login/SignUp</button></a>
     </div>
-    <script src="script.js"></script> 
-</body>
+    <div id="sidebar">
+      <ul>
+        <li><a href="/frontend/index.html">Home Page</a></li>
+        <li><a href="/frontend/interactivemap/index.html">Map</a></li>
+        <li><a href="/frontend/accounts/index.html">Accounts</a></li>
+        <!--<li><a href="/frontend/promo/index.html">Promotion</a></li>-->
+      </ul>
+    </div>
+    <div class="container">
+      <!-- main user profile and username  -->
+      <div class="main-profile">
+        <div class="profile-photo large-photo"></div>
+        <h2 class="username">Main User</h2>
+      </div>
+
+      <!-- sub accounts -->
+      <div class="sub-accounts">
+        <!-- test sub account for styling but delete for actual usage -->
+        <div class="sub-account">
+          <div class="profile-photo small-photo"></div>
+          <p class="username small-username">Sub Account 1</p>
+        </div>
+        <!-- add account button -->
+        <div class="add-account">
+          <button id="addAccountButton">+ Add Account</button>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>
