@@ -37,6 +37,7 @@
 
       const URL = "localhost:3000";
       const localTransitData = {};
+      const searchqueries = {};
       var zcounter = 0;
       var routes = {};
 
@@ -72,26 +73,23 @@
         $.getJSON(`http://${URL}/transitlabels/`, {}, async function (data) {
           for (var i = 0; i < data.labels.length; i++) {
             routes[data.labels[i]] = await drawRoute(data.labels[i]);
+            var entrydiv = document.createElement("div");
+            entrydiv.className = "entry";
+            entrydiv.id = data.labels[i];
+            entrydiv.style.display = "none";
 
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.name = "checkbox" + i;
             checkbox.id = "checkbox" + i;
-            checkbox.setAttribute(
-              "onchange",
-              "handleRouteToggle('checkbox" +
-                i +
-                "', '" +
-                data.labels[i] +
-                "');"
-            );
+            checkbox.setAttribute("onchange", "handleRouteToggle('checkbox" + i +"', '" + data.labels[i] + "');");
+            
             var checkboxlabel = document.createElement("label");
             checkboxlabel.for = "checkbox" + i;
-            checkboxlabel.textContent =
-              localTransitData[data.labels[i]]["routelabel"];
-            document
-              .getElementById("checktest")
-              .append(checkbox, checkboxlabel);
+            checkboxlabel.textContent = localTransitData[data.labels[i]]["routelabel"] + " (" + data.labels[i] + ")";
+            searchqueries[localTransitData[data.labels[i]]["routelabel"] + " (" + data.labels[i] + ")"] = data.labels[i];
+            entrydiv.append(checkbox, checkboxlabel);
+            document.getElementById("searchresults").append(entrydiv);
           }
         });
       }
@@ -102,6 +100,19 @@
           addLine(routes[route_id]);
         } else {
           removeLine(routes[route_id]);
+        }
+      }
+
+      function onSearch() {
+        var query = document.getElementById("search_bar").value;
+        var queries = Object.keys(searchqueries);
+        for (var i = 0; i < queries.length; i++) {
+          if (queries[i].toLowerCase().includes(query.toLowerCase())) {
+            document.getElementById(searchqueries[queries[i]]).style.display = "block";
+          }
+          else {
+            document.getElementById(searchqueries[queries[i]]).style.display = "none";
+          }
         }
       }
 
@@ -162,22 +173,6 @@
                         lat: parseFloat(data.locations[i][j].latitude),
                         lng: parseFloat(data.locations[i][j].longitude),
                       };
-                      if (
-                        (i == 0 && j == 0) ||
-                        (i == data.locations.length - 1 &&
-                          j == data.locations[i].length - 1)
-                      ) {
-                        const cityCircle = new google.maps.Circle({
-                          strokeColor: "#FF0000",
-                          strokeOpacity: 0.8,
-                          strokeWeight: 2,
-                          fillColor: "#FF0000",
-                          fillOpacity: 0.35,
-                          map,
-                          center: currLoc,
-                          radius: 5,
-                        });
-                      }
                       currPath.push(currLoc);
                     }
                     var routePolyline = new google.maps.Polyline({
@@ -240,7 +235,10 @@
       </ul>
     </div>
     <div id="map"></div>
-    <input type="text" class="search_bar" placeholder="Search Bar" />
+    <div id="search_bar_div">
+      <div id="searchresults"></div>
+      <input type="text" id="search_bar" oninput="onSearch();" placeholder="Search Bar" />
+    </div>
     <div id="checktest"></div>
     <script>
       function openSidebar() {

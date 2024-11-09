@@ -20,6 +20,7 @@
   justify-content: space-between;
   padding: 10px 20px;
   border-bottom: solid 2px var(--dark-blue);
+  height: 10vh;
 }
 
 .header h1 {
@@ -98,14 +99,19 @@ nav {
   justify-content: space-between;
 }
 
-.search_bar {
-  font-size: 1rem;
+#search_bar_div {
   position: sticky;
   bottom: 10px;
   left: 10px;
-  padding: 10px 15px;
+  width: 20vw;
+}
+
+#search_bar {
+  font-size: 1rem;
+  padding: 10px 1vw;
   border-radius: 10px;
   border: solid 1px black;
+  width: 18vw;
 }
 
 #menuBtn {
@@ -115,4 +121,19 @@ nav {
 }
 
 #searchBtn {
+}
+
+#searchresults {
+  max-height: 15vh;
+  background-color: white;
+  border-radius: 10px;
+  margin-bottom: 1vh;
+  overflow: auto;
+  border: solid thin black;
+  width: 20vw;
+}
+
+.entry {
+  padding: 1vw;
+  border-bottom: solid thin black;
 }
