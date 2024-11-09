@@ -15,14 +15,15 @@ const {
 } = require("./sql.js");
 
 const express = require("express");
-const cors = require("cors");const app = express();
+const cors = require("cors");
+const app = express();
 const PORT = 3000;
 app.use(cors());
 app.use(express.json()); // Middleware for JSON parsing
 
 app.get("/transitlabels/", (req, res) => {
-  res.send({labels: Object.keys(transitLabels)})
-})
+  res.send({ labels: Object.keys(transitLabels) });
+});
 
 app.get("/transit/", function (req, res) {
   //gets the information from user, then the object associated with the route_id
@@ -87,7 +88,7 @@ app.get("/linkchild", (req, res) => {
   var isInDb = getRow("./databases/main.db", "users", child);
   if (child == isInDb) {
     var authKey = req.query.parent.authKey;
-    var id = authKey(authKey);
+    var id = authSession(authKey);
     var row = getRow("./databases/main.db", "users", { uid: id });
     var data = JSON.parse(row.data);
     data = JSON.stringify({ ...data, childOf: row.username });
