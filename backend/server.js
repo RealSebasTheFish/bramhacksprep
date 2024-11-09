@@ -20,7 +20,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-const server = app.listen(port, function () {
+const server = app.listen(PORT, function () {
   console.log("Listening on port " + PORT);
 });
 const io = socketio(server);
@@ -112,14 +112,17 @@ app.get("/linkchild", (req, res) => {
 app.get("/get-location", (req, res) => {
   var location = req.query;
   // console.log(location.coords);
-
-  io.on("connection", (socket) => {
-    console.log("New connection");
-
-    socket.on("send_location", (data) => {
-      socket.emit("messageRecieved", data);
-    });
-  });
+  io.emit("send_location", JSON.stringify(location));
+  // on the frontend
+  // <script
+  //   src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+  //   integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
+  //   crossorigin="anonymous"
+  // ></script>;
+  // var socket = io("http://localhost:3000", { transports: ["websocket"] });
+  // socket.on("send_location", (data) => {
+  //   console.log(JSON.parse(data));
+  // });
 });
 
 /* Sample getTable
