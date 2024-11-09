@@ -1,96 +1,118 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Pathwise</title>
-    <link rel="stylesheet" type="text/css" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script
-      src="https://cdn.socket.io/4.8.0/socket.io.min.js"
-      integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=drawing"></script>
+    <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=places&callback=initMap" async defer></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
     <script>
-      let map;
-      let drawingManager;
+        let map;
+        let marker;
+        let geocoder;
+        let savedPlaceId = ''; // Variable to store the place ID
 
-      $(document).ready(function () {
-        initMap(); // Initialize the map on document ready
-      });
+        function initMap() {
+            console.log('Initializing map...');
+            const center = { lat: 43.7735, lng: -79.5019 };
 
-      function initMap() {
-        const center = { lat: 43.7735, lng: -79.5019 }; // Center of the map
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: center,
+                disableDefaultUI: false,
+                draggable: true,
+                streetViewControl: false,
+                mapTypeControl: true,
+                zoomControl: true,
+                scrollwheel: true,
+                gestureHandling: 'greedy'
+            });
 
-        // Create the map
-        map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 13,
-          center: center,
-          disableDefaultUI: false,
-          draggable: true,
-          streetViewControl: false,
-          mapTypeControl: true,
-          zoomControl: true,
-          scrollwheel: true,
-          gestureHandling: "greedy",
-        });
+            console.log('Map initialized.');
+            geocoder = new google.maps.Geocoder();
 
-        // Define traffic congestion paths (sample coordinates)
-        // Heavy congestion from Steele Ave W and Keele St to Finch Ave W and Keele St
-        const heavyCongestionPath = [
-          { lat: 43.78152, lng: -79.494503 }, // Start 1
-          { lat: 43.778125, lng: -79.494732 }, // Curve 1
-          { lat: 43.763429, lng: -79.490992 }, // End 1
-        ];
+            map.addListener('click', function(event) {
+                console.log('Map clicked at:', event.latLng);
+                placeMarker(event.latLng);
+                getPlaceId(event.latLng);
+            });
 
-        // Preferred route (green line) from provided coordinates
-        const preferredRoutePath = [
-          { lat: 43.76997, lng: -79.502494 }, // Starting point
-          { lat: 43.766632, lng: -79.501104 }, // curve 1
-          { lat: 43.765387, lng: -79.501503 }, // curve 2
-          { lat: 43.761127, lng: -79.500101 }, // curve 3
-          { lat: 43.762302, lng: -79.494614 }, // curve 4
-          { lat: 43.763538, lng: -79.490999 }, // Ending point
-        ];
+            // Draw a route when the document is loaded with a sample route ID
+            drawRoute('205-349');
+        }
 
-        // Moderate congestion path (yellow line)
-        const moderateCongestionPath = [
-          { lat: 43.779286, lng: -79.504397 }, // Start
-          { lat: 43.781512, lng: -79.494543 }, // End
-        ];
+        function placeMarker(location) {
+            if (marker) {
+                marker.setPosition(location);
+            } else {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+        }
 
-        // Create and display the heavy congestion polyline (red)
-        const heavyCongestionPolyline = new google.maps.Polyline({
-          path: heavyCongestionPath,
-          geodesic: true,
-          strokeColor: "#FF0000", // Red for heavy congestion
-          strokeOpacity: 1.0,
-          strokeWeight: 4,
-        });
-        heavyCongestionPolyline.setMap(map);
+        function getPlaceId(location) {
+            geocoder.geocode({ location: location }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        savedPlaceId = results[0].place_id;
+                        console.log('Place ID:', savedPlaceId); // You can remove this or replace it with further processing logic
+                    } else {
+                        console.log('No results found');
+                    }
+                } else {
+                    console.log('Geocoder failed due to:', status);
+                }
+            });
+        }
 
-        // Create and display the preferred route polyline (green)
-        const preferredRoutePolyline = new google.maps.Polyline({
-          path: preferredRoutePath,
-          geodesic: true,
-          strokeColor: "#00FF00", // Green for preferred route
-          strokeOpacity: 1.0,
-          strokeWeight: 4,
-        });
-        preferredRoutePolyline.setMap(map);
+        function drawRoute(route_id) {
+            console.log('Fetching route for ID:', route_id);
+            $.ajax({
+                url: `http://localhost:3000/transitlocations/?route_id=${route_id}`,
+                type: 'GET',
+                success: function(response) {
+                    console.log('Response received:', response);
+                    if (response.longLat && response.longLat.length > 0) {
+                        const routeCoordinates = response.longLat.map(coord => {
+                            return { lat: coord[0], lng: coord[1] };
+                        });
 
-        // Create and display the moderate congestion polyline (yellow)
-        const moderateCongestionPolyline = new google.maps.Polyline({
-          path: moderateCongestionPath,
-          geodesic: true,
-          strokeColor: "#FFFF00", // Yellow for moderate congestion
-          strokeOpacity: 1.0,
-          strokeWeight: 4,
-        });
-        moderateCongestionPolyline.setMap(map);
-      }
+                        console.log('Route coordinates:', routeCoordinates);
+
+                        const routePolyline = new google.maps.Polyline({
+                            path: routeCoordinates,
+                            geodesic: true,
+                            strokeColor: '#0000FF',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 4
+                        });
+                        routePolyline.setMap(map);
+                        console.log('Route polyline added to the map.');
+                    } else {
+                        console.error('No latitude and longitude data available for this route.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request error:', error);
+                }
+            });
+        }
     </script>
-  </head>
-  <body>
+</head>
+<body>
     <div id="map"></div>
-  </body>
+</body>
 </html>
