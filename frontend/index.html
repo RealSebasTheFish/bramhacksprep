@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=places&callback=initMap" async defer></script>
     <style>
         html, body {
             height: 100%;
@@ -23,11 +23,8 @@
         let geocoder;
         let savedPlaceId = ''; // Variable to store the place ID
 
-        $(document).ready(function() {
-            initMap();
-        });
-
         function initMap() {
+            console.log('Initializing map...');
             const center = { lat: 43.7735, lng: -79.5019 };
 
             map = new google.maps.Map(document.getElementById("map"), {
@@ -42,12 +39,17 @@
                 gestureHandling: 'greedy'
             });
 
+            console.log('Map initialized.');
             geocoder = new google.maps.Geocoder();
 
             map.addListener('click', function(event) {
+                console.log('Map clicked at:', event.latLng);
                 placeMarker(event.latLng);
                 getPlaceId(event.latLng);
             });
+
+            // Draw a route when the document is loaded with a sample route ID
+            drawRoute('205-349');
         }
 
         function placeMarker(location) {
@@ -72,6 +74,39 @@
                     }
                 } else {
                     console.log('Geocoder failed due to:', status);
+                }
+            });
+        }
+
+        function drawRoute(route_id) {
+            console.log('Fetching route for ID:', route_id);
+            $.ajax({
+                url: `http://localhost:3000/transitlocations/?route_id=${route_id}`,
+                type: 'GET',
+                success: function(response) {
+                    console.log('Response received:', response);
+                    if (response.longLat && response.longLat.length > 0) {
+                        const routeCoordinates = response.longLat.map(coord => {
+                            return { lat: coord[0], lng: coord[1] };
+                        });
+
+                        console.log('Route coordinates:', routeCoordinates);
+
+                        const routePolyline = new google.maps.Polyline({
+                            path: routeCoordinates,
+                            geodesic: true,
+                            strokeColor: '#0000FF',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 4
+                        });
+                        routePolyline.setMap(map);
+                        console.log('Route polyline added to the map.');
+                    } else {
+                        console.error('No latitude and longitude data available for this route.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX request error:', error);
                 }
             });
         }
