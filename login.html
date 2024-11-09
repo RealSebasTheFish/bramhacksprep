@@ -30,15 +30,10 @@
                     <p>Don't have an account? <a href="#" onclick="showForm('signUpForm')">Sign Up</a></p>
                 </div>
 
-                <!-- sign up form sectio -->
+                <!-- sign up form section -->
                 <div id="signUpForm" style="display: none;">
                     <h2 class="fw-bold mb-2 text-uppercase">Sign Up</h2>
                     <p class="text-white-50 mb-4">Create your account</p>
-
-                    <!--<div class="form-outline form-white">
-                        <label class="form-label" for="signUpName">Name</label>
-                        <input type="text" id="signUpName" class="form-control" />
-                    </div>-->
 
                     <div class="form-outline form-white">
                         <label class="form-label" for="signUpUsername">Username</label>
@@ -52,12 +47,23 @@
 
                     <div class="form-outline form-white">
                         <label class="form-label" for="signUpPassword">Password</label>
-                        <input type="password" id="signUpPassword" class="form-control" />
+                        <input type="password" id="signUpPassword" class="form-control" oninput="checkConfirmPassword()" />
                     </div>
 
                     <div class="form-outline form-white">
                         <label class="form-label" for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" class="form-control" />
+                        <input type="password" id="confirmPassword" class="form-control" oninput="checkConfirmPassword()" />
+                        <small id="confirmPasswordMessage" class="text-danger"></small>
+                    </div>
+
+                    <div class="form-outline form-white">
+                        <label class="form-label" for="accountType">Account Type</label>
+                        <select id="accountType" class="form-control">
+                            <option value="" disabled selected>Choose Account Type</option>
+                            <option value="child">Child</option>
+                            <option value="adult">Adult</option>
+                            <option value="senior">Senior</option>
+                        </select>
                     </div>
 
                     <button class="btn" type="button" onclick="storeSignUpData()">Sign Up</button>
@@ -65,7 +71,7 @@
                     <p>Already have an account? <a href="#" onclick="showForm('loginForm')">Login</a></p>
                 </div>
 
-                <!-- forgot oassword form section-->
+                <!-- forgot password form section-->
                 <div id="forgotPasswordForm" style="display: none;">
                     <h2 class="fw-bold mb-2 text-uppercase">Forgot Password</h2>
                     <p class="text-white-50 mb-4">Enter your username or email to reset your password</p>

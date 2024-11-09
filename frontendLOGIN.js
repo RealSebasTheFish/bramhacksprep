@@ -6,6 +6,7 @@ function showForm(formId) {
     
     document.getElementById(formId).style.display = "block";
 }
+
 // store login form inputs
 function storeLoginData() {
     const loginUsernameEmail = document.getElementById("loginUsernameEmail").value;
@@ -19,11 +20,25 @@ function storeSignUpData() {
     const signUpEmail = document.getElementById("signUpEmail").value;
     const signUpPassword = document.getElementById("signUpPassword").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
-    //console.log("Sign Up Data:", { signUpUsername, signUpEmail, signUpPassword, confirmPassword }); // checking 
+    const accountType = document.getElementById("accountType").value;
+    //console.log("Sign Up Data:", { signUpUsername, signUpEmail, signUpPassword, confirmPassword, accountType }); // checking 
 }
 
 // store forgot password input
 function storeForgotPasswordData() {
     const forgotUsernameEmail = document.getElementById("forgotUsernameEmail").value;
     //console.log("Forgot Password Data:", { forgotUsernameEmail }); // checking 
+}
+
+// check if password and confirm password match
+function checkConfirmPassword() {
+    const signUpPassword = document.getElementById("signUpPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const message = document.getElementById("confirmPasswordMessage");
+
+    if (confirmPassword &&    confirmPassword !== signUpPassword) {
+        message.textContent = "Passwords do not match";
+    } else {
+        message.textContent = "";
+    }
 }
