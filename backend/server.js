@@ -36,10 +36,10 @@ app.get("/signin/", (req, res) => {
   var user = req.query;
   const row = getRow("./databases/main.db", "users", user);
   if (user.username == row.username && user.password == row.password) {
-    createSession(user.username)
-      .then((authkey) => {
+    createSession(row.uid)
+      .then((authKey) => {
         console.log(authKey);
-        res.send({ authkey: authkey });
+        res.send({ authKey: authKey });
       })
       .catch((err) => {
         console.log(err.message);
