@@ -57,12 +57,13 @@ function linkChild() {
   const childUsername = "wef";
   const childPassword = "we";
   const childEmail = "sdf";
+  const shaPassword = hashPassword(childPassword);
   var info = {
     parent: { authKey: authKey },
     child: {
       username: childUsername,
       email: childEmail,
-      password: childPassword,
+      password: shaPassword,
     },
   };
   $.getJSON(`${URL}/linkchild`, info, (data) => {

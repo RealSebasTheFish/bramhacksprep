@@ -1,172 +1,210 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Pathwise</title>
-    <link rel="stylesheet" type="text/css" href="map.css">
+    <link rel="stylesheet" type="text/css" href="map.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=places&callback=initMap" async defer></script>
+    <script
+      src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+      integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=places&callback=initMap"
+      async
+      defer
+    ></script>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        #map {
-            height: 100%;
-            width: 100%;
-        }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+      #menuBtn {
+        cursor: pointer;
+      }
     </style>
     <script>
-        let map;
-        let marker;
-        let geocoder;
-        let savedPlaceId = ''; // Variable to store the place ID
+      let map;
+      let marker;
+      let geocoder;
+      let savedPlaceId = ""; // Variable to store the place ID
 
-        const URL = "localhost:3000";
-        var zcounter = 0;
+      const URL = "localhost:3000";
+      var zcounter = 0;
 
-        function initMap() {
-            console.log('Initializing map...');
-            const center = { lat: 43.7735, lng: -79.5019 };
+      function initMap() {
+        console.log("Initializing map...");
+        const center = { lat: 43.7735, lng: -79.5019 };
 
-            map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 13,
-                center: center,
-                disableDefaultUI: false,
-                draggable: true,
-                streetViewControl: false,
-                mapTypeControl: true,
-                zoomControl: true,
-                scrollwheel: true,
-                gestureHandling: 'greedy'
-            });
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 13,
+          center: center,
+          disableDefaultUI: false,
+          draggable: true,
+          streetViewControl: false,
+          mapTypeControl: true,
+          zoomControl: true,
+          scrollwheel: true,
+          gestureHandling: "greedy",
+        });
 
-            console.log('Map initialized.');
-            geocoder = new google.maps.Geocoder();
+        console.log("Map initialized.");
+        geocoder = new google.maps.Geocoder();
 
-            map.addListener('click', function(event) {
-                placeMarker(event.latLng);
-                getPlaceId(event.latLng);
-            });
+        map.addListener("click", function (event) {
+          placeMarker(event.latLng);
+          getPlaceId(event.latLng);
+        });
 
-            initializeRoutes();
-        }
+        initializeRoutes();
+      }
 
-        function initializeRoutes() {
-          // Draw a route when the document is loaded with a sample route ID
-          $.getJSON(`http://${URL}/transitlabels/`, {}, async function (data) {
-              var routes = {}
-              for (var i = 0; i < data.labels.length; i++) {
-                  routes[data.labels[i]] = await drawRoute(data.labels[i]);
-              }
-            });
-        }
+      function initializeRoutes() {
+        // Draw a route when the document is loaded with a sample route ID
+        $.getJSON(`http://${URL}/transitlabels/`, {}, async function (data) {
+          var routes = {};
+          for (var i = 0; i < data.labels.length; i++) {
+            routes[data.labels[i]] = await drawRoute(data.labels[i]);
+          }
+        });
+      }
 
+      function addLine(polyline) {
+        polyline.setMap(map);
+      }
 
-        function addLine(polyline) {
-          polyline.setMap(map);
-        }
+      function removeLine(polyline) {
+        polyline.setMap(null);
+      }
 
-        function removeLine(polyline) {
-          polyline.setMap(null);
-        }
-
-        function placeMarker(location) {
-            if (marker) {
-                marker.setPosition(location);
-            } else {
-                marker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
-            }
-        }
-
-        function getPlaceId(location) {
-            geocoder.geocode({ location: location }, function(results, status) {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        savedPlaceId = results[0].place_id;
-                        console.log('Place ID:', savedPlaceId); // You can remove this or replace it with further processing logic
-                    } else {
-                        console.log('No results found');
-                    }
-                } else {
-                    console.log('Geocoder failed due to:', status);
-                }
-            });
-        }
-
-        async function drawRoute(route_id) {
-          return new Promise((resolve, reject) => {
-            $.getJSON(`http://${URL}/transit/`, {route_id: route_id}, function (dataO) {
-              $.getJSON(`http://${URL}/transitlocations/`, {shapeids: dataO.shapeids}, (data) => {
-                var full_shape = [];
-                for (var i = 0; i < data.locations.length; i++) {
-                  var currPath = [];
-                  for (var j = 0; j < data.locations[i].length; j++) {
-                    var currLoc = {lat: parseFloat(data.locations[i][j].latitude), lng: parseFloat(data.locations[i][j].longitude)};
-                    if (i == 0 && j == 0 || i == data.locations.length-1 && j == data.locations[i].length-1) {
-                      const cityCircle = new google.maps.Circle({
-                        strokeColor: "#FF0000",
-                        strokeOpacity: 0.8,
-                        strokeWeight: 2,
-                        fillColor: "#FF0000",
-                        fillOpacity: 0.35,
-                        map,
-                        center: currLoc,
-                        radius: 5,
-                      });
-                    }
-                    currPath.push(currLoc);
-                  }
-                  var routePolyline = new google.maps.Polyline({
-                    path: currPath,
-                    geodesic: true,
-                    strokeColor: dataO.color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: 4
-                  });
-                  routePolyline.setMap(map);
-                  full_shape.push(routePolyline);
-                }
-                console.log(full_shape);
-                for (var i = 0; i < full_shape.length; i++) {
-                  google.maps.event.addListener(full_shape[i], 'click', function(h, obj=full_shape) {
-                    var currZ = ++zcounter;
-                    for (var j = 0; j < full_shape.length; j++) {
-                      full_shape[j].setOptions({ zIndex: currZ});
-                    }
-                    console.log("AA");
-                  });
-                }
-                resolve(full_shape)
-                
-              });
-            })
+      function placeMarker(location) {
+        if (marker) {
+          marker.setPosition(location);
+        } else {
+          marker = new google.maps.Marker({
+            position: location,
+            map: map,
           });
         }
+      }
+
+      function getPlaceId(location) {
+        geocoder.geocode({ location: location }, function (results, status) {
+          if (status === "OK") {
+            if (results[0]) {
+              savedPlaceId = results[0].place_id;
+              console.log("Place ID:", savedPlaceId); // You can remove this or replace it with further processing logic
+            } else {
+              console.log("No results found");
+            }
+          } else {
+            console.log("Geocoder failed due to:", status);
+          }
+        });
+      }
+
+      async function drawRoute(route_id) {
+        return new Promise((resolve, reject) => {
+          $.getJSON(
+            `http://${URL}/transit/`,
+            { route_id: route_id },
+            function (dataO) {
+              $.getJSON(
+                `http://${URL}/transitlocations/`,
+                { shapeids: dataO.shapeids },
+                (data) => {
+                  var full_shape = [];
+                  for (var i = 0; i < data.locations.length; i++) {
+                    var currPath = [];
+                    for (var j = 0; j < data.locations[i].length; j++) {
+                      var currLoc = {
+                        lat: parseFloat(data.locations[i][j].latitude),
+                        lng: parseFloat(data.locations[i][j].longitude),
+                      };
+                      if (
+                        (i == 0 && j == 0) ||
+                        (i == data.locations.length - 1 &&
+                          j == data.locations[i].length - 1)
+                      ) {
+                        const cityCircle = new google.maps.Circle({
+                          strokeColor: "#FF0000",
+                          strokeOpacity: 0.8,
+                          strokeWeight: 2,
+                          fillColor: "#FF0000",
+                          fillOpacity: 0.35,
+                          map,
+                          center: currLoc,
+                          radius: 5,
+                        });
+                      }
+                      currPath.push(currLoc);
+                    }
+                    var routePolyline = new google.maps.Polyline({
+                      path: currPath,
+                      geodesic: true,
+                      strokeColor: dataO.color,
+                      strokeOpacity: 1.0,
+                      strokeWeight: 4,
+                    });
+                    routePolyline.setMap(map);
+                    full_shape.push(routePolyline);
+                  }
+                  console.log(full_shape);
+                  for (var i = 0; i < full_shape.length; i++) {
+                    google.maps.event.addListener(
+                      full_shape[i],
+                      "click",
+                      function (h, obj = full_shape) {
+                        var currZ = ++zcounter;
+                        for (var j = 0; j < full_shape.length; j++) {
+                          full_shape[j].setOptions({ zIndex: currZ });
+                        }
+                        console.log("AA");
+                      }
+                    );
+                  }
+                  resolve(full_shape);
+                }
+              );
+            }
+          );
+        });
+      }
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <nav>
       <svg
-          onclick="openSidebar()"
-          id="menuBtn"
-          xmlns="http://www.w3.org/2000/svg"
-          height="30"
-          viewBox="0 -960 960 960"
-          width="30"
-          fill="black"
-        >
-          <path
-            d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-          />
-        </svg>
-        <div id="searchBar"></div>
-        <svg id="accountBtn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
+        onclick="openSidebar()"
+        id="menuBtn"
+        xmlns="http://www.w3.org/2000/svg"
+        height="30"
+        viewBox="0 -960 960 960"
+        width="30"
+        fill="black"
+      >
+        <path
+          d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+        />
+      </svg>
+      <div id="searchBar"></div>
+      <svg
+        width="30"
+        id="accountBtn"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512"
+      >
+        <path
+          d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"
+        />
+      </svg>
     </nav>
     <div id="map"></div>
-</body>
+  </body>
 </html>
