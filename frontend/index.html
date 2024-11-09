@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pathwise</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=drawing"></script>
+
+        <script>
+            const socket = io("https://2b66-199-212-64-70.ngrok-free.app/", { transports : ['websocket'] });
+            console.log(socket);
+
+            let map;
+            let drawingManager;
+
+            $(document).ready(function(){
+                socket.on("connect", () => {
+                    console.log("Connection Successful!");
+                });
+
+                socket.on("response-packet", function(data) {
+                    console.log(data);
+                    var type = data["type"];
+                    var result = "";
+
+                    switch(type) {
+                        case "police":
+                            result = "a police";
+                            break;
+                        case "crash":
+                            result = "a crash";
+                            break;
+                        case "pothole":
+                            result = "a pothole";
+                            break;
+                        case "blocked-lane":
+                            result = "a blocked lane";
+                            break;
+                        case "bad-weather":
+                            result = "bad weather";
+                            break;
+                        case "construction":
+                            result = "construction";
+                            break;
+                        case "car-on-shoulder":
+                            result = "a car on shoulder";
+                            break;
+                        case "gas-prices":
+                            result = "a gas price";
+                            break;
+                        default:
+                            // code block
+                    }
+
+                    $("#notification-image").prop("src", "img/" + data["type"] + ".png");
+                    $("#notification-text").text(data["username"] + " reported " + result + "!");
+                    showNotification();
+                });
+
+                initMap(); // Initialize the map on document ready
+
+            });
+
+            function openReportMenu() {
+                $("#report-select-menu").css("display", "block");
+            }
+
+            function closeReportMenu() {
+                $("#report-select-menu").css("display", "none");
+            }
+
+
+            function openIncentiveMenu() {
+                $("#incentive-select-menu").css("display", "block");
+            }
+
+            function closeIncentiveMenu() {
+                $("#incentive-select-menu").css("display", "none");
+            }
+
+            var notificationTimer;
+            function showNotification() {
+                $("#notification").css("opacity", "100");
+                clearTimeout(notificationTimer);
+                notificationTimer = setTimeout(function(){
+                    $("#notification").css("opacity", "0");
+                },5000);
+            }
+
+            function report(type) {
+                closeReportMenu();
+                var latitude = null;
+                var longitude = null;
+                var name = "Someone";
+                const data = {
+                    "type": type, // Ping type
+                    "location": {
+                        "latitude": latitude, // location part 1
+                        "longitude": longitude // location part 2
+                    },
+                    "timestamp": new Date().toISOString(), // timestamp from the server
+                    "username": name, // username input
+                };
+
+                socket.emit("report-packet", data);
+
+            }
+
+            function initMap() {
+            const center = { lat: 43.7735, lng: -79.5019 }; // Center of the map
+
+            // Create the map
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: center,
+                disableDefaultUI: false,
+                draggable: true,
+                streetViewControl: false,
+                mapTypeControl: true,
+                zoomControl: true,
+                scrollwheel: true,
+                gestureHandling: 'greedy'
+            });
+
+            // Define traffic congestion paths (sample coordinates)
+            // Heavy congestion from Steele Ave W and Keele St to Finch Ave W and Keele St
+            const heavyCongestionPath = [
+                { lat: 43.781520, lng: -79.494503 }, // Start 1
+                { lat: 43.778125, lng: -79.494732 }, // Curve 1
+                { lat: 43.763429, lng: -79.490992 }, // End 1
+
+            ];
+
+            // Preferred route (green line) from provided coordinates
+            const preferredRoutePath = [
+                { lat: 43.769970, lng: -79.502494 }, // Starting point
+                { lat: 43.766632, lng: -79.501104} , // curve 1 
+                { lat: 43.765387, lng: -79.501503}, // curve 2
+                { lat: 43.761127 , lng: -79.500101 }, // curve 3
+                { lat: 43.762302, lng: -79.494614 }, // curve 4
+                { lat: 43.763538, lng: -79.490999 }  // Ending point
+            ];
+
+            // Moderate congestion path (yellow line)
+            const moderateCongestionPath = [
+                { lat: 43.779286, lng: -79.504397 }, // Start
+                { lat: 43.781512, lng: -79.494543 }  // End
+            ];
+
+            // Create and display the heavy congestion polyline (red)
+            const heavyCongestionPolyline = new google.maps.Polyline({
+                path: heavyCongestionPath,
+                geodesic: true,
+                strokeColor: '#FF0000', // Red for heavy congestion
+                strokeOpacity: 1.0,
+                strokeWeight: 4
+            });
+            heavyCongestionPolyline.setMap(map);
+
+            // Create and display the preferred route polyline (green)
+            const preferredRoutePolyline = new google.maps.Polyline({
+                path: preferredRoutePath,
+                geodesic: true,
+                strokeColor: '#00FF00', // Green for preferred route
+                strokeOpacity: 1.0,
+                strokeWeight: 4
+            });
+            preferredRoutePolyline.setMap(map);
+
+            // Create and display the moderate congestion polyline (yellow)
+            const moderateCongestionPolyline = new google.maps.Polyline({
+                path: moderateCongestionPath,
+                geodesic: true,
+                strokeColor: '#FFFF00', // Yellow for moderate congestion
+                strokeOpacity: 1.0,
+                strokeWeight: 4
+            });
+            moderateCongestionPolyline.setMap(map);
+        }
+        </script>
+    </head>
+    <body>
+        <div id="map"></div>
+        <button id="report-button" onclick="openReportMenu();"><img id="report-button-image" src="img/caution.png" /></button>
+        <button id="incentive-button" onclick="openIncentiveMenu();"><img id="incentive-button-image" src="img/dollar-sign.png" /></button>
+        <div id="notification-bar">
+            <div id="notification">
+                <img id="notification-image" src="img/police.png"/>
+                <p id="notification-text">Someone reported a police!</p>
+            </div>
+        </div>
+        
+        <div id="report-select-menu">
+            <table>
+                <tr>
+                    <td class="report-image" onclick="report('police');"><img src="img/police.png" /></td>
+                    <td class="report-image" onclick="report('crash');"><img src="img/crash.png" /></td>
+                    <td class="report-image" onclick="report('pothole');"><img src="img/pothole.png" /></td>
+                </tr>
+                <tr>
+                    <td class="report-image" onclick="report('blocked-lane');"><img src="img/blocked-lane.png" /></td>
+                    <td class="report-image" onclick="report('bad-weather');"><img src="img/bad-weather.png" /></td>
+                    <td class="report-image" onclick="report('construction');"><img src="img/construction.png" /></td>
+                </tr>
+                <tr>
+                    <td class="report-image" onclick="report('car-on-shoulder');"><img src="img/car-on-shoulder.png" /></td>
+                    <td class="report-image" onclick="report('gas-prices');"><img src="img/gas-prices.png" /></td>
+                    <td class="report-image" onclick="closeReportMenu();"><img src="img/x.png" /></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="incentive-select-menu">
+            <img id="close-incentive-menu" onclick="closeIncentiveMenu();" src="img/x.png" />
+            <table id="incentives">
+                <tr><td class="incentive-entry">
+                    <h2 class="incentive-title">Louise's Bakery</h2>
+                    <img class="incentive-image" src="img/louis.png"/>
+                    <p class="incentive-description">Louise's bakery is known in the city for is amazing pastries and fresh made bread. It is a great place to meet with friends, study, or just to have a good time! </p>
+                </td></tr>
+                <tr><td class="incentive-entry">
+                    <h2 class="incentive-title">Bob's Convenience</h2>
+                    <img class="incentive-image" src="img/bob.png"/>
+                    <p class="incentive-description">"Convenience at your fingertips! Bob's convenience is a store that is designed for easy and enjoyable shopping. From snacks and beverages to household staples and personal care items—you'll find everything you need in one spot. Swing by for a hassle-free shopping experience where quality and convenience come together!"</p>
+                </td></tr>
+                <tr><td class="incentive-entry">
+                    <h2 class="incentive-title">Gregs's Eatery</h2>
+                    <img class="incentive-image" src="img/greg.png"/>
+                    <p class="incentive-description">Greg's Eatery is a European-inspired dining establishment that offers a curated selection of delicious, freshly prepared dishes. Located in York Region, the eatery emphasizes the use of high-quality, locally sourced ingredients, ensuring a delightful culinary experience.</p>
+                </td></tr>
+            </table>
+        </div>
+    </body>
+</html>
