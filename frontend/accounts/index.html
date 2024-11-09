@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Base64/1.3.0/base64.js"
+      integrity="sha512-dyP0t+NWNah3gv8HUBC6mk/Sfk3Uhv7pT0bpxIwWaiusHutVMUDftG0mSAxec0ycz/CXfxAHHFI4zbT2l1yCNg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <meta charset="UTF-8" />
     <title>Account Management</title>
     <link rel="stylesheet" href="main.css" />
@@ -49,7 +55,6 @@
     <div class="container">
       <!-- main user profile and username  -->
       <div class="main-profile">
-        <div class="profile-photo large-photo"></div>
         <h2 class="username">Main User</h2>
       </div>
 
@@ -64,8 +69,102 @@
         <div class="add-account">
           <button id="addAccountButton">+ Add Account</button>
         </div>
+        <!-- add/change main profile pic -->
+        <div class="profile-pic" id="output1">
+          <label class="-label" for="file">
+            <span class="glyphicon glyphicon-camera"></span>
+            <span>Change Image</span>
+          </label>
+          <input id="file" type="file" onchange="loadFile(event)" />
+          <img
+            class="large-photo"
+            src="https://cdn.pixabay.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg"
+            id="output"
+            width="200"
+          />
+          <!-- <textarea id="base64Output" rows="5" cols="50" placeholder="Base64 result will appear here"></textarea> -->
+        </div>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+      const MAX_BASE64_LENGTH = 65000; // ADDED MAX BASE64 LENGTH
+
+      // Function to resize image using canvas
+      function resizeImage(imageFile, maxWidth, maxHeight) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = URL.createObjectURL(imageFile);
+
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let width = img.width;
+            let height = img.height;
+
+            // Calculate new dimensions based on max width/height
+            if (width > maxWidth || height > maxHeight) {
+              if (width > height) {
+                height *= maxWidth / width;
+                width = maxWidth;
+              } else {
+                width *= maxHeight / height;
+                height = maxHeight;
+              }
+            }
+
+            // Set canvas dimensions and draw resized image
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Convert resized image to Blob
+            canvas.toBlob(resolve, "image/jpeg", 0.7);
+          };
+
+          img.onerror = (error) => reject(error);
+        });
+      }
+
+      // Function to convert Blob to Base64
+      function blobToBase64(blob) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
+      }
+
+      // Main function to convert an image to Base64 with size check
+      async function convertImageToBase64(imageFile) {
+        let resizedImageBlob = await resizeImage(imageFile, 300, 300); // Resizing to 300x300 max
+        let base64String = await blobToBase64(resizedImageBlob);
+
+        // If the Base64 string is too long, further reduce size
+        while (base64String.length > MAX_BASE64_LENGTH) {
+          resizedImageBlob = await resizeImage(resizedImageBlob, 200, 200); // Further reduce size
+          base64String = await blobToBase64(resizedImageBlob);
+        }
+
+        return base64String;
+      }
+
+      // MODIFIED LOADFILE FUNCTION TO USE SIZE CONSTRAINT FUNCTION
+      var loadFile = async function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]); // Sets image preview
+
+        try {
+          // Get the resized Base64 string
+          const base64String = await convertImageToBase64(
+            event.target.files[0]
+          );
+          console.log(base64String); // Logs Base64 string to console
+        } catch (error) {
+          console.error("Error converting image to Base64:", error);
+        }
+      };
+    </script>
   </body>
 </html>
