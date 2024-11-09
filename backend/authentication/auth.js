@@ -57,13 +57,13 @@ async function createSession(userid) {
     }
 
     if (!exists) {
-        
         authkey = await generateAuthKey();
-        sessions.push({
+        var appendData = {
             "id": userid,
             "authkey": authkey,
             "timestamp": getUnixTime()
-        });
+        }
+        sessions.push(appendData);
     }
 
     await pushSessions(sessions);
