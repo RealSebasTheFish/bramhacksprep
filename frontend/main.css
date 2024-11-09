@@ -1,0 +1,11 @@
+document, body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    height: 100vh; /* Or the desired height */
+    width: 100vw; /* Or the desired width */
+    position: relative;
+    z-index: 0;
+}
