@@ -11,6 +11,10 @@
   --light: #cbdceb;
 }
 
+body {
+  width: 100vw;
+}
+
 .header {
   z-index: 100;
   position: sticky;
@@ -79,7 +83,7 @@ svg {
   position: fixed;
   left: 0;
   border-bottom: solid 2px var(--dark-blue);
-  border-right: solid 2px var(--dark-blue);;
+  border-right: solid 2px var(--dark-blue);
   border-top-right-radius: 0px;
   border-bottom-right-radius: 15px;
   top: 59px;
