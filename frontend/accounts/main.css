@@ -14,7 +14,8 @@
   }
 
   .header {
-    position: sticky;
+    position: fixed;
+    width: 100%;
     top: 0;
     background-color: #608cc1af;
     display: flex;
@@ -90,6 +91,7 @@ body {
 
 /* container layout */
 .container {
+    margin-top: 80px;
     display: flex;
     width: 80%;
     max-width: 1000px;
