@@ -82,12 +82,28 @@
             checkbox.type = "checkbox";
             checkbox.name = "checkbox" + i;
             checkbox.id = "checkbox" + i;
-            checkbox.setAttribute("onchange", "handleRouteToggle('checkbox" + i +"', '" + data.labels[i] + "');");
-            
+            checkbox.setAttribute(
+              "onchange",
+              "handleRouteToggle('checkbox" +
+                i +
+                "', '" +
+                data.labels[i] +
+                "');"
+            );
+
             var checkboxlabel = document.createElement("label");
             checkboxlabel.for = "checkbox" + i;
-            checkboxlabel.textContent = localTransitData[data.labels[i]]["routelabel"] + " (" + data.labels[i] + ")";
-            searchqueries[localTransitData[data.labels[i]]["routelabel"] + " (" + data.labels[i] + ")"] = data.labels[i];
+            checkboxlabel.textContent =
+              localTransitData[data.labels[i]]["routelabel"] +
+              " (" +
+              data.labels[i] +
+              ")";
+            searchqueries[
+              localTransitData[data.labels[i]]["routelabel"] +
+                " (" +
+                data.labels[i] +
+                ")"
+            ] = data.labels[i];
             entrydiv.append(checkbox, checkboxlabel);
             document.getElementById("searchresults").append(entrydiv);
           }
@@ -108,10 +124,11 @@
         var queries = Object.keys(searchqueries);
         for (var i = 0; i < queries.length; i++) {
           if (queries[i].toLowerCase().includes(query.toLowerCase())) {
-            document.getElementById(searchqueries[queries[i]]).style.display = "block";
-          }
-          else {
-            document.getElementById(searchqueries[queries[i]]).style.display = "none";
+            document.getElementById(searchqueries[queries[i]]).style.display =
+              "block";
+          } else {
+            document.getElementById(searchqueries[queries[i]]).style.display =
+              "none";
           }
         }
       }
@@ -209,37 +226,45 @@
     </script>
   </head>
   <body>
-    <div class="header">
-      <svg
-        onclick="openSidebar()"
-        id="menuBtn"
-        xmlns="http://www.w3.org/2000/svg"
-        height="30"
-        viewBox="0 -960 960 960"
-        width="30"
-        fill="white"
-      >
-        <path
-          d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-        />
-      </svg>
-      <h1>BramWays</h1>
-      <button>Login/SignUp</button>
+    <div class="mapsection">
+      <div class="header">
+        <svg
+          onclick="openSidebar()"
+          id="menuBtn"
+          xmlns="http://www.w3.org/2000/svg"
+          height="30"
+          viewBox="0 -960 960 960"
+          width="30"
+          fill="white"
+        >
+          <path
+            d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+          />
+        </svg>
+        <h1>BramWays</h1>
+        <button>Login/SignUp</button>
+      </div>
+      <div id="sidebar">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Map</a></li>
+          <li><a href="#">Accounts</a></li>
+          <li><a href="#">Promo</a></li>
+        </ul>
+      </div>
+      <div id="map"></div>
+      <div id="search_bar_div">
+        <div id="searchresults"></div>
+      </div>
+      <input
+        type="text"
+        class="search_bar"
+        id="search_bar"
+        oninput="onSearch();"
+        placeholder="Search Bar"
+      />
+      <div id="checktest"></div>
     </div>
-    <div id="sidebar">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Map</a></li>
-        <li><a href="#">Accounts</a></li>
-        <li><a href="#">Promo</a></li>
-      </ul>
-    </div>
-    <div id="map"></div>
-    <div id="search_bar_div">
-      <div id="searchresults"></div>
-      <input type="text" id="search_bar" oninput="onSearch();" placeholder="Search Bar" />
-    </div>
-    <div id="checktest"></div>
     <script>
       function openSidebar() {
         document.getElementById("sidebar").style.display = "flex";
