@@ -15,36 +15,34 @@ const {
 } = require("./sql.js");
 
 const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser"); // For parsing JSON bodies
-const app = express();
+const cors = require("cors");const app = express();
 const PORT = 3000;
 app.use(cors());
-app.use(bodyParser.json()); // Middleware for JSON parsing
+app.use(express.json()); // Middleware for JSON parsing
 
-// Existing transit route endpoint (unchanged)
+app.get("/transitlabels/", (req, res) => {
+  res.send({labels: Object.keys(transitLabels)})
+})
+
 app.get("/transit/", function (req, res) {
-  var requestData = req.body;
+  //gets the information from user, then the object associated with the route_id
+  var requestData = req.query;
   res.set("Content-Type", "application/json");
-
-  var routeObject = requestData["route_id"];
+  console.log(requestData.route_id);
+  var routeObject = transitLabels[requestData.route_id];
   console.log(routeObject);
-
-  res.send({ routeObject: routeObject });
+  res.send(routeObject);
 });
 
-// Endpoint for getting transit locations based on shape IDs (fixed logic)
 app.get("/transitlocations/", function (req, res) {
-  const route_id = req.query.route_id;
-  
-  if (route_id && transitLabels[route_id]) {
-    const shape_ids = transitLabels[route_id].shapeids;
-    const longLat = shape_ids.map(id => transitData[id]).filter(Boolean); // Get longLat only if available
-
-    res.send({ longLat: longLat });
-  } else {
-    res.status(400).send({ error: "Invalid or missing route_id" });
+  var requestData = req.query;
+  //gets the shape id, then the longLat
+  var shapeids = requestData.shapeids;
+  var returnData = [];
+  for (var i = 0; i < shapeids.length; i++) {
+    returnData.push(transitData[shapeids[i]]);
   }
+  res.send({ locations: returnData });
 });
 
 
