@@ -27,6 +27,9 @@ body, html {
     margin: 30px;
 
 }
+.spacer{
+    height: 10vh;
+}
 
 /* form elements */
 .form-outline {
