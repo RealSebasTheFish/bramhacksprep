@@ -10,11 +10,13 @@ const {
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const PORT = 3010;
+const PORT = 3000;
 app.use(cors());
 
 app.get("/signup/", (req, res) => {
-  const user = req.query;
+  var user = req.query;
+  var data = JSON.stringify({ type: user.type, saved_routes: [], points: 0 });
+  user.data = data;
   const result = insertInto("./databases/main.db", "users", user);
   const resultArr = result.split(":");
   // console.log(resultArr);
@@ -29,7 +31,11 @@ app.get("/signup/", (req, res) => {
 // deleteRow("./databases/main.db", "users", { uid: 1 });
 // console.log(getTable("./databases/main.db", "users"));
 
-app.post("/signin/", (req, res) => {});
+app.get("/signin/", (req, res) => {
+  var user = req.query;
+  const row = getRow("./databases/main.db", "users", user);
+  // console.log(row);
+});
 
 app.listen(PORT, () => {
   console.log("Listening on port " + PORT);

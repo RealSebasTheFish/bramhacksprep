@@ -70,7 +70,11 @@ function getRow(dBase, table, user) {
     row = db.prepare(`SELECT * FROM ${table} WHERE ${info}`).get(values);
     db.close();
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
+    return error.message;
+  }
+  if (row == undefined) {
+    return "user not found";
   }
   return row;
 }

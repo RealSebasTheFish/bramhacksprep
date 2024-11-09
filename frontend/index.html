@@ -1,94 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Pathwise</title>
-        <link rel="stylesheet" type="text/css" href="main.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=drawing"></script>
+  <head>
+    <title>Pathwise</title>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+      integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=drawing"></script>
+    <script>
+      let map;
+      let drawingManager;
 
-        <script>
-            let map;
-            let drawingManager;
+      $(document).ready(function () {
+        initMap(); // Initialize the map on document ready
+      });
 
-            $(document).ready(function(){
-                initMap(); // Initialize the map on document ready
-            });
+      function initMap() {
+        const center = { lat: 43.7735, lng: -79.5019 }; // Center of the map
 
-            function initMap() {
-            const center = { lat: 43.7735, lng: -79.5019 }; // Center of the map
+        // Create the map
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 13,
+          center: center,
+          disableDefaultUI: false,
+          draggable: true,
+          streetViewControl: false,
+          mapTypeControl: true,
+          zoomControl: true,
+          scrollwheel: true,
+          gestureHandling: "greedy",
+        });
 
-            // Create the map
-            map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 13,
-                center: center,
-                disableDefaultUI: false,
-                draggable: true,
-                streetViewControl: false,
-                mapTypeControl: true,
-                zoomControl: true,
-                scrollwheel: true,
-                gestureHandling: 'greedy'
-            });
+        // Define traffic congestion paths (sample coordinates)
+        // Heavy congestion from Steele Ave W and Keele St to Finch Ave W and Keele St
+        const heavyCongestionPath = [
+          { lat: 43.78152, lng: -79.494503 }, // Start 1
+          { lat: 43.778125, lng: -79.494732 }, // Curve 1
+          { lat: 43.763429, lng: -79.490992 }, // End 1
+        ];
 
-            // Define traffic congestion paths (sample coordinates)
-            // Heavy congestion from Steele Ave W and Keele St to Finch Ave W and Keele St
-            const heavyCongestionPath = [
-                { lat: 43.781520, lng: -79.494503 }, // Start 1
-                { lat: 43.778125, lng: -79.494732 }, // Curve 1
-                { lat: 43.763429, lng: -79.490992 }, // End 1
+        // Preferred route (green line) from provided coordinates
+        const preferredRoutePath = [
+          { lat: 43.76997, lng: -79.502494 }, // Starting point
+          { lat: 43.766632, lng: -79.501104 }, // curve 1
+          { lat: 43.765387, lng: -79.501503 }, // curve 2
+          { lat: 43.761127, lng: -79.500101 }, // curve 3
+          { lat: 43.762302, lng: -79.494614 }, // curve 4
+          { lat: 43.763538, lng: -79.490999 }, // Ending point
+        ];
 
-            ];
+        // Moderate congestion path (yellow line)
+        const moderateCongestionPath = [
+          { lat: 43.779286, lng: -79.504397 }, // Start
+          { lat: 43.781512, lng: -79.494543 }, // End
+        ];
 
-            // Preferred route (green line) from provided coordinates
-            const preferredRoutePath = [
-                { lat: 43.769970, lng: -79.502494 }, // Starting point
-                { lat: 43.766632, lng: -79.501104} , // curve 1 
-                { lat: 43.765387, lng: -79.501503}, // curve 2
-                { lat: 43.761127 , lng: -79.500101 }, // curve 3
-                { lat: 43.762302, lng: -79.494614 }, // curve 4
-                { lat: 43.763538, lng: -79.490999 }  // Ending point
-            ];
+        // Create and display the heavy congestion polyline (red)
+        const heavyCongestionPolyline = new google.maps.Polyline({
+          path: heavyCongestionPath,
+          geodesic: true,
+          strokeColor: "#FF0000", // Red for heavy congestion
+          strokeOpacity: 1.0,
+          strokeWeight: 4,
+        });
+        heavyCongestionPolyline.setMap(map);
 
-            // Moderate congestion path (yellow line)
-            const moderateCongestionPath = [
-                { lat: 43.779286, lng: -79.504397 }, // Start
-                { lat: 43.781512, lng: -79.494543 }  // End
-            ];
+        // Create and display the preferred route polyline (green)
+        const preferredRoutePolyline = new google.maps.Polyline({
+          path: preferredRoutePath,
+          geodesic: true,
+          strokeColor: "#00FF00", // Green for preferred route
+          strokeOpacity: 1.0,
+          strokeWeight: 4,
+        });
+        preferredRoutePolyline.setMap(map);
 
-            // Create and display the heavy congestion polyline (red)
-            const heavyCongestionPolyline = new google.maps.Polyline({
-                path: heavyCongestionPath,
-                geodesic: true,
-                strokeColor: '#FF0000', // Red for heavy congestion
-                strokeOpacity: 1.0,
-                strokeWeight: 4
-            });
-            heavyCongestionPolyline.setMap(map);
-
-            // Create and display the preferred route polyline (green)
-            const preferredRoutePolyline = new google.maps.Polyline({
-                path: preferredRoutePath,
-                geodesic: true,
-                strokeColor: '#00FF00', // Green for preferred route
-                strokeOpacity: 1.0,
-                strokeWeight: 4
-            });
-            preferredRoutePolyline.setMap(map);
-
-            // Create and display the moderate congestion polyline (yellow)
-            const moderateCongestionPolyline = new google.maps.Polyline({
-                path: moderateCongestionPath,
-                geodesic: true,
-                strokeColor: '#FFFF00', // Yellow for moderate congestion
-                strokeOpacity: 1.0,
-                strokeWeight: 4
-            });
-            moderateCongestionPolyline.setMap(map);
-        }
-        </script>
-    </head>
-    <body>
-        <div id="map"></div>
-    </body>
+        // Create and display the moderate congestion polyline (yellow)
+        const moderateCongestionPolyline = new google.maps.Polyline({
+          path: moderateCongestionPath,
+          geodesic: true,
+          strokeColor: "#FFFF00", // Yellow for moderate congestion
+          strokeOpacity: 1.0,
+          strokeWeight: 4,
+        });
+        moderateCongestionPolyline.setMap(map);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
 </html>
