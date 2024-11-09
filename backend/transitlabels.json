@@ -1,0 +1,754 @@
+{
+    "30-349": {
+      "routelabel": "30 AIRPORT ROAD SOUTH",
+      "shapeids": [
+        "300083",
+        "300082",
+        "300081",
+        "300077",
+        "300079",
+        "300074",
+        "300085"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "51-349": {
+      "routelabel": "51 HEREFORD EAST",
+      "shapeids": [
+        "510036",
+        "510037"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "9-349": {
+      "routelabel": "9 VODDEN EAST",
+      "shapeids": [
+        "90032",
+        "90034",
+        "90035"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "60-349": {
+      "routelabel": "60 MISSISSAUGA ROAD SOUTH",
+      "shapeids": [
+        "600009",
+        "600006",
+        "600004"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "23-349": {
+      "routelabel": "23 SANDALWOOD EAST",
+      "shapeids": [
+        "230129",
+        "230127"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "18-349": {
+      "routelabel": "18 DIXIE NORTH",
+      "shapeids": [
+        "180212",
+        "180209",
+        "180223",
+        "180203",
+        "180225",
+        "180224",
+        "180222",
+        "180211",
+        "180205",
+        "180217",
+        "180226",
+        "180218"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "56-349": {
+      "routelabel": "56 KINGKNOLL LOOP",
+      "shapeids": [
+        "560029"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "8-349": {
+      "routelabel": "8 CENTRE EAST",
+      "shapeids": [
+        "80041",
+        "80040"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "29-349": {
+      "routelabel": "29A WILLIAMS EAST",
+      "shapeids": [
+        "290066",
+        "290065",
+        "290067",
+        "290058",
+        "290068",
+        "290051"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "14-349": {
+      "routelabel": "14 TORBRAM SOUTH",
+      "shapeids": [
+        "140068",
+        "140077",
+        "140069",
+        "140072",
+        "140071",
+        "140078",
+        "140074",
+        "140079",
+        "140080"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "17-349": {
+      "routelabel": "17 HOWDEN NORTH",
+      "shapeids": [
+        "170022",
+        "170023"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "27-349": {
+      "routelabel": "27 ROBERT PARKINSON NORTH",
+      "shapeids": [
+        "270008",
+        "270007"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "13-349": {
+      "routelabel": "13 AVONDALE NORTH",
+      "shapeids": [
+        "130019",
+        "130022"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "55-349": {
+      "routelabel": "55 ELBERN MARKELL SOUTH",
+      "shapeids": [
+        "550010",
+        "550009"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "28-349": {
+      "routelabel": "28 WANLESS WEST",
+      "shapeids": [
+        "280007",
+        "280004"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "81-349": {
+      "routelabel": "81 MAYFIELD WEST SB",
+      "shapeids": [
+        "810002",
+        "810005"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "4-349": {
+      "routelabel": "4 CHINGUACOUSY NORTH",
+      "shapeids": [
+        "40072",
+        "40089",
+        "40085",
+        "40075",
+        "40074",
+        "40064",
+        "40084",
+        "40086"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "505-349": {
+      "routelabel": "505 ZUM BOVAIRD EAST",
+      "shapeids": [
+        "5050005",
+        "5050007",
+        "5050006",
+        "5050010",
+        "5050008"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "2-349": {
+      "routelabel": "2 MAIN SOUTH",
+      "shapeids": [
+        "20044",
+        "20043",
+        "20045"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "15-349": {
+      "routelabel": "15A BRAMALEA SOUTH",
+      "shapeids": [
+        "150160",
+        "150145",
+        "150146",
+        "150143",
+        "150131",
+        "150161",
+        "150158",
+        "150157",
+        "150144",
+        "150129",
+        "150134",
+        "150159",
+        "150130"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "3-349": {
+      "routelabel": "3 MCLAUGHLIN NORTH",
+      "shapeids": [
+        "30046",
+        "30045",
+        "30047",
+        "30044"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "6-349": {
+      "routelabel": "6 JAMES POTTER SOUTH",
+      "shapeids": [
+        "60014",
+        "60015"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "10-349": {
+      "routelabel": "10 SOUTH INDUSTRIAL NORTHBOUND",
+      "shapeids": [
+        "100025",
+        "100024"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "20-349": {
+      "routelabel": "20A EAST INDUSTRIAL EAST",
+      "shapeids": [
+        "200019",
+        "200020",
+        "200012",
+        "200021"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "25-349": {
+      "routelabel": "25 EDENBROOK NORTH",
+      "shapeids": [
+        "250030",
+        "250031"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "24-349": {
+      "routelabel": "24 VAN KIRK NORTH",
+      "shapeids": [
+        "240035",
+        "240036"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "31-349": {
+      "routelabel": "31 MCVEAN NORTH",
+      "shapeids": [
+        "310060",
+        "310061"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "32-349": {
+      "routelabel": "32 FATHER TOBIN LOOP",
+      "shapeids": [
+        "320010"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "33-349": {
+      "routelabel": "33 PETER ROBERTSON LOOP",
+      "shapeids": [
+        "330015"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "36-349": {
+      "routelabel": "36 GARDENBROOKE NORTH",
+      "shapeids": [
+        "360018",
+        "360019"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "57-349": {
+      "routelabel": "57 CHAROLAIS NORTH",
+      "shapeids": [
+        "570009",
+        "570010",
+        "570005",
+        "570011"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "53-349": {
+      "routelabel": "53 RAY LAWSON WEST",
+      "shapeids": [
+        "530025",
+        "530023"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "7-349": {
+      "routelabel": "7 KENNEDY NORTH",
+      "shapeids": [
+        "70089",
+        "70086",
+        "70093",
+        "70087",
+        "70091",
+        "70088",
+        "70044",
+        "70090",
+        "70092"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "5-349": {
+      "routelabel": "5 BOVAIRD EAST",
+      "shapeids": [
+        "50063",
+        "50064",
+        "50049",
+        "50052",
+        "50062",
+        "50033",
+        "50034"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "11-349": {
+      "routelabel": "11A STEELES EASTBOUND",
+      "shapeids": [
+        "110126",
+        "110129",
+        "110134",
+        "110119",
+        "110128",
+        "110102",
+        "110135",
+        "110115",
+        "110127",
+        "110122"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "115-349": {
+      "routelabel": "115 AIRPORT EXPRESS NORTH",
+      "shapeids": [
+        "1150018",
+        "1150019"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "511-349": {
+      "routelabel": "511 ZUM STEELES EASTBOUND",
+      "shapeids": [
+        "5110049",
+        "5110044",
+        "5110043",
+        "5110039",
+        "5110038",
+        "5110045",
+        "5110042",
+        "5110037",
+        "5110041",
+        "5110048"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "1-349": {
+      "routelabel": "1A QUEEN EAST",
+      "shapeids": [
+        "10199",
+        "10241",
+        "10221",
+        "10243",
+        "10228",
+        "10240",
+        "10222",
+        "10244",
+        "10242",
+        "10227",
+        "10198",
+        "10229",
+        "10212",
+        "10230",
+        "10245"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "104-349": {
+      "routelabel": "104 CHINGUACOUSY EXPRESS NORTH",
+      "shapeids": [
+        "1040004",
+        "1040005"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "502-349": {
+      "routelabel": "502 ZUM MAIN NORTHBOUND",
+      "shapeids": [
+        "5020013",
+        "5020015",
+        "5020016",
+        "5020017"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "561-349": {
+      "routelabel": "561 ZUM QUEEN WEST EB",
+      "shapeids": [
+        "5610001",
+        "5610002"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "35-349": {
+      "routelabel": "35 CLARKWAY SOUTH",
+      "shapeids": [
+        "350063",
+        "350065"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "26-349": {
+      "routelabel": "26 MOUNT PLEASANT NORTH",
+      "shapeids": [
+        "260025",
+        "260026"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "501-349": {
+      "routelabel": "501 ZUM QUEEN WESTBOUND",
+      "shapeids": [
+        "5010069",
+        "5010068"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "19-349": {
+      "routelabel": "19 FERNFOREST NORTH",
+      "shapeids": [
+        "190037",
+        "190036"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "41-349": {
+      "routelabel": "41 BOLTON NORTHBOUND",
+      "shapeids": [
+        "410004",
+        "410003"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "300-349": {
+      "routelabel": "300 HEART LAKE BP NORTH",
+      "shapeids": [
+        "3000002",
+        "3000001"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "12-349": {
+      "routelabel": "12 GRENOBLE SOUTH",
+      "shapeids": [
+        "120021",
+        "120019"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "16-349": {
+      "routelabel": "16 SOUTHGATE NORTH",
+      "shapeids": [
+        "160021",
+        "160024"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "52-349": {
+      "routelabel": "52 MCMURCHY SOUTH",
+      "shapeids": [
+        "520038",
+        "520026"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "199-349": {
+      "routelabel": "199 UTM EXPRESS NORTH",
+      "shapeids": [
+        "1990003",
+        "1990004"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "54-349": {
+      "routelabel": "54 COUNTY COURT LOOP",
+      "shapeids": [
+        "540013"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "218-349": {
+      "routelabel": "218 HEART LAKE PM",
+      "shapeids": [
+        "2180001",
+        "2180003"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "217-349": {
+      "routelabel": "217 ST. THOMAS AQUINAS PM",
+      "shapeids": [
+        "2170001"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "215-349": {
+      "routelabel": "215 ST. THOMAS PM",
+      "shapeids": [
+        "2150017",
+        "2150016"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "214-349": {
+      "routelabel": "214 Cardinal Ambrozic PM",
+      "shapeids": [
+        "2140021",
+        "2140022"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "213-349": {
+      "routelabel": "213 St. Edmund PM",
+      "shapeids": [
+        "2130013",
+        "2130015"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "216-349": {
+      "routelabel": "216 DAVID SUZUKI PM",
+      "shapeids": [
+        "2160008",
+        "2160006"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "212-349": {
+      "routelabel": "212 St. Roch PM",
+      "shapeids": [
+        "2120006",
+        "2120007"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "211-349": {
+      "routelabel": "211 CHINGUACOUSY PM",
+      "shapeids": [
+        "2110011",
+        "2110012"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "209-349": {
+      "routelabel": "209 ST. AUGUSTINE PM",
+      "shapeids": [
+        "2090009",
+        "2090010"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "208-349": {
+      "routelabel": "208 MAYFIELD PM",
+      "shapeids": [
+        "2080017",
+        "2080020"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "207-349": {
+      "routelabel": "207 MAYFIELD PM",
+      "shapeids": [
+        "2070017",
+        "2070019"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "206-349": {
+      "routelabel": "206 ST. AUGUSTINE AM",
+      "shapeids": [
+        "2060012",
+        "2060013"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "205-349": {
+      "routelabel": "205 ST. THOMAS AM",
+      "shapeids": [
+        "2050026",
+        "2050027"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "204-349": {
+      "routelabel": "204 MAYFIELD PM",
+      "shapeids": [
+        "2040007"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "203-349": {
+      "routelabel": "203 MAYFIELD PM",
+      "shapeids": [
+        "2030002"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "202-349": {
+      "routelabel": "202 MAYFIELD PM",
+      "shapeids": [
+        "2020013",
+        "2020014"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "201-349": {
+      "routelabel": "201 MAYFIELD PM",
+      "shapeids": [
+        "2010008",
+        "2010011"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "200-349": {
+      "routelabel": "200 TURNER FENTON PM",
+      "shapeids": [
+        "2000016",
+        "2000017"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "50-349": {
+      "routelabel": "50 GORE ROAD SOUTH",
+      "shapeids": [
+        "500096",
+        "500141",
+        "500097",
+        "500144",
+        "500147",
+        "500145",
+        "500148",
+        "500146",
+        "500142",
+        "500099",
+        "500100",
+        "500150",
+        "500149",
+        "500151",
+        "500076"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    },
+    "58-349": {
+      "routelabel": "58 FINANCIAL NORTH",
+      "shapeids": [
+        "580010",
+        "580011"
+      ],
+      "bikes": "1",
+      "wheelchair": "1"
+    }
+  }
