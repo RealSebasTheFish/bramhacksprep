@@ -1,4 +1,13 @@
 /*Login page css for bramhacks (test)*/
+body {
+  /*background-color: var(--bright);*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
 #logo{
   border-radius: 35px;
 }
@@ -16,18 +25,6 @@
   --light: #cbdceb;
 }
 
-body {
-  /*background-color: var(--bright);*/
-  background-image: url("../asset/9145838.jpg");
-  backdrop-filter: blur(3px);
-  background-size: cover;
-  background-attachment: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-}
 
 .header {
   position: fixed;
@@ -100,7 +97,7 @@ html {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
-  background-image: url("../asset/wall.jpg");
+  background-image: url("../asset/13172.jpg");
   background-size: cover;
   background-attachment: fixed;
 }
@@ -115,8 +112,9 @@ html {
 
 /* gray gradient background for tge login rectangle*/
 .gradient-custom {
-  background: #333333;
-  background: linear-gradient(to bottom right, #555555, #222222);
+  background: transparent;
+  backdrop-filter: blur(7px);
+  /* background: linear-gradient(to bottom right, #722cff, #222222); */
   border-radius: 1rem;
   padding: 30px;
   width: 100%;
@@ -149,7 +147,7 @@ html {
   padding: 10px;
   font-size: 1rem;
   color: #333;
-  background-color: #ddd;
+  background-color: #a5ffff78;
   border: none;
   border-radius: 0.3rem;
   box-sizing: border-box;
@@ -160,8 +158,8 @@ html {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 1rem;
-  color: #fff;
-  background-color: #666;
+  color: #000000;
+  background-color: #a5ffff;
   border: none;
   border-radius: 0.3rem;
   cursor: pointer;
@@ -189,3 +187,6 @@ html {
 .text-center a:hover {
   text-decoration: underline;
 }
+ #loginForm h2 p{
+  margin: 4px;
+ }

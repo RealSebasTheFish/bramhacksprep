@@ -91,3 +91,26 @@ function checkConfirmPassword() {
     message.textContent = "";
   }
 }
+function openSidebar() {
+  document.getElementById("sidebar").style.display = "flex";
+  document.getElementById("menuBtn").setAttribute("onclick", "closeSidebar()");
+}
+
+function closeSidebar() {
+  document.getElementById("sidebar").style.display = "none";
+  document.getElementById("menuBtn").setAttribute("onclick", "openSidebar()");
+}
+
+// Smooth scroll animation for About Us section
+document.addEventListener("scroll", function () {
+  const aboutSection = document.getElementById("about");
+  const sectionPosition = aboutSection.getBoundingClientRect().top;
+  const screenPosition = window.innerHeight / 1.3;
+
+  if (sectionPosition < screenPosition) {
+    aboutSection.classList.add("visible");
+  }
+  if (sectionPosition > screenPosition) {
+    aboutSection.classList.add("none");
+  }
+});
