@@ -93,11 +93,23 @@ svg {
 #map {
   height: 90%;
   width: 100%;
-  z-index: 1;
+  /* z-index: 1; */
+}
+
+#search_bar_div {
+  position: fixed;
+  bottom: 55px;
+  left: 10px;
+  overflow: auto;
+  height: 100px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: solid 2px black;
+  background-color: #cbdceb;
 }
 
 .search_bar {
-  z-index: 9;
+  z-index: 100;
   font-size: 1rem;
   position: fixed;
   bottom: 10px;
