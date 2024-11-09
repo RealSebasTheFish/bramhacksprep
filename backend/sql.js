@@ -104,9 +104,15 @@ function updateRow(dBase, table, user, update) {
       updateInfo += " AND ";
     }
   }
-  var sql = `UPDATE ${table} SET ${updateInfo} WHERE ${userInfo}`;
-  db.prepare(sql).run(updateValues.concat(userValues));
-  db.close();
+  try {
+    var sql = `UPDATE ${table} SET ${updateInfo} WHERE ${userInfo}`;
+    db.prepare(sql).run(updateValues.concat(userValues));
+    db.close();
+  } catch (error) {
+    // console.log(error.message);
+    return error.message;
+  }
+  return `user updated!`;
 }
 // updateRow("./databases/main.db", "users", { username: "Sajad" }, { uid: "23" });
 // console.log(getTable("./databases/main.db", "users"));

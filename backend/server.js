@@ -45,7 +45,6 @@ app.get("/transitlocations/", function (req, res) {
   res.send({ locations: returnData });
 });
 
-
 app.get("/signin/", (req, res) => {
   var user = req.query;
   const row = getRow("./databases/main.db", "users", user);
@@ -77,6 +76,31 @@ app.get("/signup/", (req, res) => {
     res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
   }
   res.send({ result: "User added!" });
+});
+
+// this gets called from and Adult account;
+// child object -> username, email, password
+// data object in the users table will have a "connection" key
+// childOf or parentOf -> username
+app.get("/linkchild", (req, res) => {
+  var child = req.query.child; // format of info: {parent: {authKey: someValue}, child: {username: , email: , password}}
+  var isInDb = getRow("./databases/main.db", "users", child);
+  if (child == isInDb) {
+    var authKey = req.query.parent.authKey;
+    var id = authKey(authKey);
+    var row = getRow("./databases/main.db", "users", { uid: id });
+    var data = JSON.parse(row.data);
+    data = JSON.stringify({ ...data, childOf: row.username });
+    var result = updateRow(
+      "./databases/main.db",
+      "users",
+      { uid: id },
+      { data: data }
+    );
+    res.send({ result: result });
+  } else {
+    res.send({ result: "child account not found!" });
+  }
 });
 
 // Start the server
