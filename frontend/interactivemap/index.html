@@ -36,7 +36,9 @@
       let savedPlaceId = ""; // Variable to store the place ID
 
       const URL = "localhost:3000";
+      const localTransitData = {};
       var zcounter = 0;
+      var routes = {};
 
       function initMap() {
         console.log("Initializing map...");
@@ -68,19 +70,42 @@
       function initializeRoutes() {
         // Draw a route when the document is loaded with a sample route ID
         $.getJSON(`http://${URL}/transitlabels/`, {}, async function (data) {
-          var routes = {};
           for (var i = 0; i < data.labels.length; i++) {
             routes[data.labels[i]] = await drawRoute(data.labels[i]);
+
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "checkbox" + i;
+            checkbox.id = "checkbox" + i;
+            checkbox.setAttribute("onchange", "handleRouteToggle('checkbox" + i +"', '" + data.labels[i] + "');");
+            var checkboxlabel = document.createElement("label");
+            checkboxlabel.for = "checkbox" + i;
+            checkboxlabel.textContent = localTransitData[data.labels[i]]["routelabel"];
+            document.getElementById("checktest").append(checkbox, checkboxlabel);
           }
         });
       }
 
-      function addLine(polyline) {
-        polyline.setMap(map);
+      function handleRouteToggle(check, route_id) {
+        console.log("Checked!");
+        if (document.getElementById(check).checked) {
+          addLine(routes[route_id]);
+        }
+        else {
+          removeLine(routes[route_id]);
+        }
       }
 
-      function removeLine(polyline) {
-        polyline.setMap(null);
+      function addLine(polylines) {
+        for (var i = 0; i < polylines.length; i++) {
+          polylines[i].setMap(map);
+        }
+      }
+
+      function removeLine(polylines) {
+        for (var i = 0; i < polylines.length; i++) {
+          polylines[i].setMap(null);
+        }
       }
 
       function placeMarker(location) {
@@ -111,14 +136,9 @@
 
       async function drawRoute(route_id) {
         return new Promise((resolve, reject) => {
-          $.getJSON(
-            `http://${URL}/transit/`,
-            { route_id: route_id },
-            function (dataO) {
-              $.getJSON(
-                `http://${URL}/transitlocations/`,
-                { shapeids: dataO.shapeids },
-                (data) => {
+          $.getJSON(`http://${URL}/transit/`, { route_id: route_id }, function (dataO) {
+              localTransitData[route_id] = dataO;
+              $.getJSON(`http://${URL}/transitlocations/`, { shapeids: dataO.shapeids }, (data) => {
                   var full_shape = [];
                   for (var i = 0; i < data.locations.length; i++) {
                     var currPath = [];
@@ -152,7 +172,7 @@
                       strokeOpacity: 1.0,
                       strokeWeight: 4,
                     });
-                    routePolyline.setMap(map);
+                    routePolyline.setMap(null);
                     full_shape.push(routePolyline);
                   }
                   console.log(full_shape);
@@ -206,5 +226,6 @@
       </svg>
     </nav>
     <div id="map"></div>
+    <div id="checktest"></div>
   </body>
 </html>
