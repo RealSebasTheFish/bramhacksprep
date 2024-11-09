@@ -14,7 +14,6 @@
 }
 
 body {
-  /*background-color: var(--bright);*/
   background-image: url("asset/home.jpg");
   backdrop-filter: blur(3px);
   background-size: cover;
@@ -22,8 +21,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  overflow: hidden;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .header {
@@ -41,6 +40,8 @@ body {
 
 .header h1 {
   color: var(--dark-blue);
+  align-items: center;
+  text-align: center;
 }
 
 .header button {
@@ -92,41 +93,120 @@ body {
   border-bottom: solid 2px black;
 }
 
+/* Main Content */
 .main-content {
-  position: relative;
+  margin-top: 15%;
+  margin-bottom: 50%;
+  text-align: center;
+  color: var(--dark-blue);
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  align-items: center;
+}
+
+.main-content h2 {
+  margin-bottom: 10px;
+}
+
+.main-content p {
+  margin-bottom: 20px;
+}
+
+.cta-buttons {
   display: flex;
-  justify-content: flex-start; /* Aligns content to the left */
-  height: 100%;
-  width: 100%;
+  gap: 10px;
+  justify-content: center;
 }
 
-.about-section {
-  margin-top: 10%;
-  position: absolute;
-  left: 20px; /* Keeps it aligned to the left */
-  color: var(--light);
-  background-color: rgba(14, 14, 14, 0.54);
-  padding: 15px 20px;
-  border-radius: 15px;
-  border: var(--dark-blue) solid 3px;
-  width: 55%;
+.cta-buttons button {
+  padding: 10px 20px;
   font-size: 1rem;
-  text-align: left justify;
+  background-color: var(--mid-blue);
+  color: var(--bright);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-/* Responsive styling */
+.cta-buttons button:hover {
+  background-color: var(--dark-blue);
+}
+
+/* About Us Section */
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding-top: 300px;
+  padding-bottom: 300px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark blur effect */
+  color: var(--bright);
+  position: relative;
+  opacity: 0;
+  transition: opacity 1s ease, transform 1s ease;
+  transform: translateY(50px); /* Initial position for animation */
+  backdrop-filter: blur(10px);
+}
+
+.about-content {
+  max-width: 60%;
+  margin-left: 10%;
+  text-align: left;
+}
+
+.about-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--mid-blue);
+}
+
+.about-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Smooth Scroll Animation */
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .about-section {
-    left: 10px; /* Adjust for smaller screens */
-    max-width: 80%;
-    font-size: 0.9rem;
+  .header h1 {
+    font-size: 1.2rem;
+  }
+
+  .main-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  #sidebar {
+    width: 150px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-buttons button {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .about-section {
-    left: 5px; /* Further adjust for very small screens */
-    max-width: 90%;
-    font-size: 0.85rem;
+  .header button, .cta-buttons button {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+  }
+
+  .header h1 {
+    font-size: 1rem;
   }
 }
