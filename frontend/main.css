@@ -137,8 +137,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: left;
-  height: 100vh;
-  padding: 20px;
+  padding-top: 300px;
+  padding-bottom: 300px;
+  padding-left: 20px;
+  padding-right: 20px;
   background-color: rgba(0, 0, 0, 0.7); /* Dark blur effect */
   color: var(--bright);
   position: relative;
