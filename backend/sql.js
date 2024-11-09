@@ -46,8 +46,10 @@ function insertInto(dBase, table, user) {
     db.prepare(sql).run(values);
     db.close();
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
+    return error.message;
   }
+  return "User added!";
 }
 // insertInto("./databases/main.db", "users", { email: "sajasdfasasdfdafsdd@sajas.com", username: "SajsdasdffadReal", password: "sdbyfsdyuhfg", data:"{}" });
 // console.log(getTable("./databases/main.db", "users"));
@@ -70,7 +72,11 @@ function getRow(dBase, table, user) {
     row = db.prepare(`SELECT * FROM ${table} WHERE ${info}`).get(values);
     db.close();
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
+    return error.message;
+  }
+  if (row == undefined) {
+    return "user not found";
   }
   return row;
 }

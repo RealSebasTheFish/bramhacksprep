@@ -2,6 +2,11 @@ const sqlite3 = require("sqlite3");
 const transitLabels = require("./transitlabels.json");
 const transitData = require("./transitdata.json");
 const {
+  createSession,
+  authSession,
+  removeSession,
+} = require("./authentication/auth.js");
+const {
   insertInto,
   getTable,
   getRow,
@@ -16,34 +21,6 @@ const app = express();
 const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json()); // Middleware for JSON parsing
-
-// Route for handling signup (unchanged)
-app.get("/signup/", (req, res) => {
-  const user = req.query;
-  const result = insertInto("./databases/main.db", "users", user);
-  const resultArr = result.split(":");
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  if (resultArr[0] == "UNIQUE constraint failed") {
-    console.log("choose a different " + resultArr[1].split(".")[1]);
-    res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
-  }
-  console.log(result);
-  res.send({ result: "user added" });
-});
-
-// New POST route for receiving route_id and label
-app.post("/sendRouteLabel", (req, res) => {
-  const { route_id, label } = req.body;
-
-  if (route_id && label) {
-    console.log(`Received route ID: ${route_id}, Label: ${label}`);
-    
-    // Add any additional logic or database processing if needed
-    res.send({ message: `Route label for ${route_id} received: ${label}` });
-  } else {
-    res.status(400).send({ error: "Invalid data received" });
-  }
-});
 
 // Existing transit route endpoint (unchanged)
 app.get("/transit/", function (req, res) {
@@ -70,10 +47,39 @@ app.get("/transitlocations/", function (req, res) {
   }
 });
 
-// deleteRow("./databases/main.db", "users", { uid: 1 });
-// console.log(getTable("./databases/main.db", "users"));
 
-app.post("/signin/", (req, res) => {});
+app.get("/signin/", (req, res) => {
+  var user = req.query;
+  const row = getRow("./databases/main.db", "users", user);
+  if (user.username == row.username && user.password == row.password) {
+    createSession(row.uid)
+      .then((authKey) => {
+        console.log(authKey);
+        res.send({ authKey: authKey });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  } else {
+    console.log("Wrong info");
+    res.send({ result: "Wrong info!" });
+  }
+});
+
+// Route for handling signup (unchanged)
+app.get("/signup/", (req, res) => {
+  var user = req.query;
+  user.data = JSON.stringify({ ...user.data, saved_routes: [], points: 0 });
+  // console.log(user);
+  const result = insertInto("./databases/main.db", "users", user);
+  const resultArr = result.split(":");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  if (resultArr[0] == "UNIQUE constraint failed") {
+    // console.log("choose a different " + resultArr[1].split(".")[1]);
+    res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
+  }
+  res.send({ result: "User added!" });
+});
 
 // Start the server
 app.listen(PORT, () => {
