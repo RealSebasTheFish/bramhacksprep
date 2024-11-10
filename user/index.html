@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/geo-location-javascript/0.4.8/geo.js"
+      integrity="sha512-2DQQKauN/4TxnFSftXZH1NY+/+8tDaqIM8VyppLRTLIAJgZ3KJy9ztGEuukRb995VXQsrQqWUSUlGPK8pPuxMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script
+      src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+      integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=drawing"></script>
+    <script src="./scripts.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="loginForm">
+      <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+      <p class="text-white-50 mb-4">Please enter your login details</p>
+
+      <div class="form-outline form-white">
+        <label class="form-label" for="loginUsernameEmail"
+          >Username/Email</label
+        >
+        <input type="text" id="loginUsernameEmail" class="form-control" />
+      </div>
+
+      <div class="form-outline form-white">
+        <label class="form-label" for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" class="form-control" />
+      </div>
+      <button
+        id="loginBtn"
+        class="btn"
+        type="button"
+        onclick="storeLoginData()"
+      >
+        Login
+      </button>
+    </div>
+  </body>
+</html>

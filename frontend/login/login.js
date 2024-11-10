@@ -17,16 +17,19 @@ function storeLoginData() {
   const loginUsernameEmail =
     document.getElementById("loginUsernameEmail").value;
   const loginPassword = document.getElementById("loginPassword").value; //console.log("Login Data:", { loginUsernameEmail, loginPassword }); // checking
-  const shaPassword = hashPassword(signUpPassword);
+  const shaPassword = hashPassword(loginPassword);
   const user = {
     username: loginUsernameEmail,
     password: shaPassword,
   };
   $.getJSON(`${URL}/signin`, user, (data) => {
-    console.log(data.result);
     localStorage.setItem("authKey", data.authKey);
     console.log(localStorage.getItem("authKey"));
+    if (data.result != "Wrong Info!") {
+      window.location.href = "../accounts/index.html";
+    }
   });
+
   return false;
 }
 
@@ -46,8 +49,10 @@ function storeSignUpData() {
   };
 
   $.getJSON(`${URL}/signup`, user, (data) => {
-    console.log(data.result);
+    localStorage.setItem("authKey", data.authKey);
+    console.log(localStorage.getItem("authKey"));
   });
+  window.location.href = "../interactivemap/index.html";
   return false;
 }
 
@@ -57,12 +62,13 @@ function linkChild() {
   const childUsername = "wef";
   const childPassword = "we";
   const childEmail = "sdf";
+  const shaPassword = hashPassword(childPassword);
   var info = {
     parent: { authKey: authKey },
     child: {
       username: childUsername,
       email: childEmail,
-      password: childPassword,
+      password: shaPassword,
     },
   };
   $.getJSON(`${URL}/linkchild`, info, (data) => {
@@ -90,3 +96,26 @@ function checkConfirmPassword() {
     message.textContent = "";
   }
 }
+function openSidebar() {
+  document.getElementById("sidebar").style.display = "flex";
+  document.getElementById("menuBtn").setAttribute("onclick", "closeSidebar()");
+}
+
+function closeSidebar() {
+  document.getElementById("sidebar").style.display = "none";
+  document.getElementById("menuBtn").setAttribute("onclick", "openSidebar()");
+}
+
+// Smooth scroll animation for About Us section
+document.addEventListener("scroll", function () {
+  const aboutSection = document.getElementById("about");
+  const sectionPosition = aboutSection.getBoundingClientRect().top;
+  const screenPosition = window.innerHeight / 1.3;
+
+  if (sectionPosition < screenPosition) {
+    aboutSection.classList.add("visible");
+  }
+  if (sectionPosition > screenPosition) {
+    aboutSection.classList.add("none");
+  }
+});

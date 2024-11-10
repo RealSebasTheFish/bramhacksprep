@@ -20,7 +20,7 @@ function getTable(dBase, table) {
   }
   return users;
 }
-// console.log(getTable("./databases/main.db", "users"));
+console.log(getTable("./databases/main.db", "users"));
 
 // database & table: String; user: Object;
 // inserts all the attributes of user into the table;
@@ -73,9 +73,9 @@ function getRow(dBase, table, user) {
     db.close();
   } catch (error) {
     // console.log(error.message);
-    return error.message;
+    return "error: " + error.message;
   }
-  if (row == undefined) {
+  if (!row) {
     return "user not found";
   }
   return row;

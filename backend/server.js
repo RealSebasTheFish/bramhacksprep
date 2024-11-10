@@ -1,4 +1,4 @@
-const sqlite3 = require("sqlite3");
+const socketio = require("socket.io");
 const transitLabels = require("./transitlabels.json");
 const transitData = require("./transitdata.json");
 const {
@@ -15,14 +15,20 @@ const {
 } = require("./sql.js");
 
 const express = require("express");
-const cors = require("cors");const app = express();
+const cors = require("cors");
+const app = express();
 const PORT = 3000;
+
 app.use(cors());
+const server = app.listen(PORT, function () {
+  console.log("Listening on port " + PORT);
+});
+const io = socketio(server);
 app.use(express.json()); // Middleware for JSON parsing
 
 app.get("/transitlabels/", (req, res) => {
-  res.send({labels: Object.keys(transitLabels)})
-})
+  res.send({ labels: Object.keys(transitLabels) });
+});
 
 app.get("/transit/", function (req, res) {
   //gets the information from user, then the object associated with the route_id
@@ -47,11 +53,12 @@ app.get("/transitlocations/", function (req, res) {
 
 app.get("/signin/", (req, res) => {
   var user = req.query;
+  console.log(user, " want to sign in;");
   const row = getRow("./databases/main.db", "users", user);
   if (user.username == row.username && user.password == row.password) {
     createSession(row.uid)
       .then((authKey) => {
-        console.log(authKey);
+        console.log(row.username, "'s authKey: ", authKey);
         res.send({ authKey: authKey });
       })
       .catch((err) => {
@@ -74,8 +81,16 @@ app.get("/signup/", (req, res) => {
   if (resultArr[0] == "UNIQUE constraint failed") {
     // console.log("choose a different " + resultArr[1].split(".")[1]);
     res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
+  } else {
+    createSession(user.uid)
+      .then((authKey) => {
+        console.log(authKey);
+        res.send({ result: "User added!", authKey: authKey });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
-  res.send({ result: "User added!" });
 });
 
 // this gets called from and Adult account;
@@ -84,28 +99,72 @@ app.get("/signup/", (req, res) => {
 // childOf or parentOf -> username
 app.get("/linkchild", (req, res) => {
   var child = req.query.child; // format of info: {parent: {authKey: someValue}, child: {username: , email: , password}}
-  var isInDb = getRow("./databases/main.db", "users", child);
-  if (child == isInDb) {
+  var row = getRow("./databases/main.db", "users", child);
+  if (child.username === row.username && child.password === row.password) {
     var authKey = req.query.parent.authKey;
-    var id = authKey(authKey);
-    var row = getRow("./databases/main.db", "users", { uid: id });
-    var data = JSON.parse(row.data);
-    data = JSON.stringify({ ...data, childOf: row.username });
-    var result = updateRow(
-      "./databases/main.db",
-      "users",
-      { uid: id },
-      { data: data }
-    );
-    res.send({ result: result });
+    var id = authSession(authKey)
+      .then((id) => {
+        console.log("id: ", id);
+        if (!id) {
+          console.log(id);
+          res.send({ result: "Please Log in!" });
+        } else {
+          var row = getRow("./databases/main.db", "users", { uid: id });
+          console.log(row);
+          var data = JSON.parse(row.data);
+          data = JSON.stringify({ ...data, childOf: row.username });
+          var result = updateRow(
+            "./databases/main.db",
+            "users",
+            { uid: id },
+            { data: data }
+          );
+          res.send({ result: result });
+        }
+      })
+      .catch((err) => console.log(err));
   } else {
     res.send({ result: "child account not found!" });
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log("Listening on port " + PORT);
+app.get("/addroute/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "application/json");
+  var data = req.query;
+  authSession(data.key).then((auth) => {
+    if (auth == null)
+      res.send(`${req.query.callback}(${JSON.stringify({ result: null })})`);
+    var route = data.route;
+    var currData = getRow("./databases/main.db", "users", { uid: auth });
+    // console.log(currData);
+    currData = JSON.parse(currData["data"]);
+    currData["saved_routes"].push(route);
+    var result = updateRow(
+      "./databases/main.db",
+      "users",
+      { uid: auth },
+      { data: JSON.stringify(currData) }
+    );
+    console.log(result);
+    res.send(`${req.query.callback}(${JSON.stringify({ result: "Success" })})`);
+  });
+});
+
+app.get("/get-location", (req, res) => {
+  var location = req.query;
+  // console.log(location.coords);
+  io.emit("send_location", JSON.stringify(location));
+  // on the frontend
+  // <script
+  //   src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+  //   integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
+  //   crossorigin="anonymous"
+  // ></script>;
+  // var socket = io("http://localhost:3000", { transports: ["websocket"] });
+  // socket.on("send_location", (data) => {
+  //   console.log(JSON.parse(data));
+  // });
 });
 
 /* Sample getTable
