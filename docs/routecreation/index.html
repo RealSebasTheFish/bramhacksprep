@@ -51,13 +51,17 @@
       socket.on("send_location", (data) => {
         console.log(data);
       })
+
       function initMap() {
+        setTimeout(function(){
+          initMap2();
+        },5000)
+      }
+      function initMap2() {
         console.log("Initializing map...");
         const center = { lat: 43.7735, lng: -79.5019 };
 
-        if (document.getElementById("map") == null) {
-          $(document).on("ready", () => {
-            map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map(document.getElementById("map"), {
           zoom: 13,
           center: center,
           disableDefaultUI: false,
@@ -95,48 +99,6 @@
             }
           
         });
-          })
-        }
-        else {
-          map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 13,
-          center: center,
-          disableDefaultUI: false,
-          draggable: true,
-          streetViewControl: false,
-          mapTypeControl: true,
-          zoomControl: true,
-          scrollwheel: true,
-          gestureHandling: "greedy",
-        });
-
-        console.log("Map initialized.");
-        geocoder = new google.maps.Geocoder();
-
-        map.addListener("click", function (event) {
-          if (start) {
-            placeStart(event.latLng);
-            getPlaceId(event.latLng).then((data) => {
-              markStart();
-              var address = data["address_components"];
-              console.log(address)
-              document.getElementById("positionStartText").value = address[0]["short_name"] + " " + address[1]["short_name"] + " " + address[2]["short_name"] + " " + address[3]["short_name"]
-          
-            });
-           }
-
-          if (end) {
-            placeEnd(event.latLng);
-            getPlaceId(event.latLng).then((data) => {
-              markEnd();
-              var address = data["address_components"];
-              document.getElementById("positionEndText").value = address[0]["short_name"] + " " + address[1]["short_name"] + " " + address[2]["short_name"] + " " + address[3]["short_name"]
-          
-            });
-            }
-          
-        });
-        }
 
         // TESTING ROUTES
         /*getDestRoute(
