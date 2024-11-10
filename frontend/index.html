@@ -75,24 +75,7 @@
       <a href="./accounts/index.html"><button>Manage Account</button></a>
     </div>
   </div>
-    <!-- Bottom bar -->
-    <div class="bottom-bar">
-      <a href="#">Contact Us</a>
-      <div class="emergency-button">
-        <!-- Emergency SVG Icon -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="red"
-          width="24px"
-          height="24px"
-        >
-          <path d="M0 0h24v24H0z" fill="none" />
-          <path
-            d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
-          />
-        </svg>
-      </div>
+
   <!-- About Us Section -->
   <div class="about-section" id="about">
     <div class="about-content">
@@ -115,36 +98,8 @@
       <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
   </svg>
 </div>
-    <script>
-      // Show/hide account menu on hover
-      $(".account").hover(
-        function () {
-          $(".account-menu").fadeIn();
-        },
-        function () {
-          $(".account-menu").fadeOut();
-        }
-      );
 
-      // jQuery animation to slide out the menu and go to another page (placeholder links)
-      function animateAndRedirect(buttonId) {
-        $(buttonId).on("click", function (e) {
-          e.preventDefault();
-          $("#menuBox").css("animation", "slideOutLeft 0.5s forwards");
-          setTimeout(function () {
-            window.location.href = ""; // Placeholder, no URL provided
-          }, 500);
-        });
-      }
 
-      // Apply animation for all menu buttons
-      animateAndRedirect("#mapBtn");
-      animateAndRedirect("#accountBtn");
-      animateAndRedirect("#awardsBtn");
-      var socket = io("http://localhost:3000", { transports: ["websocket"] });
-      socket.on("send_location", (data) => {
-        console.log(JSON.parse(data));
-      });
-    </script>
-  </body>
+
+</body>
 </html>
