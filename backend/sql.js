@@ -73,7 +73,7 @@ function getRow(dBase, table, user) {
     db.close();
   } catch (error) {
     // console.log(error.message);
-    return error.message;
+    return "error: " + error.message;
   }
   if (!row) {
     return "user not found";

@@ -48,11 +48,12 @@ app.get("/transitlocations/", function (req, res) {
 
 app.get("/signin/", (req, res) => {
   var user = req.query;
+  console.log(user, " want to sign in;");
   const row = getRow("./databases/main.db", "users", user);
   if (user.username == row.username && user.password == row.password) {
     createSession(row.uid)
       .then((authKey) => {
-        console.log(authKey);
+        console.log(row.username, "'s authKey: ", authKey);
         res.send({ authKey: authKey });
       })
       .catch((err) => {
@@ -93,30 +94,28 @@ app.get("/signup/", (req, res) => {
 // childOf or parentOf -> username
 app.get("/linkchild", (req, res) => {
   var child = req.query.child; // format of info: {parent: {authKey: someValue}, child: {username: , email: , password}}
-  var isInDb = getRow("./databases/main.db", "users", child);
-  if (
-    child.username === isInDb.username &&
-    child.password === isInDb.password
-  ) {
+  var row = getRow("./databases/main.db", "users", child);
+  if (child.username === row.username && child.password === row.password) {
     var authKey = req.query.parent.authKey;
     var id = authSession(authKey)
-      .then((data) => {
-        console.log(data);
-        // if (!data) {
-        //   console.log(data);
-        //   res.send({ result: "Please Log in!" });
-        // } else {
-        //   var row = getRow("./databases/main.db", "users", { uid: id });
-        //   var data = JSON.parse(row.data);
-        //   data = JSON.stringify({ ...data, childOf: row.username });
-        //   var result = updateRow(
-        //     "./databases/main.db",
-        //     "users",
-        //     { uid: id },
-        //     { data: data }
-        //   );
-        //   res.send({ result: result });
-        // }
+      .then((id) => {
+        console.log("id: ", id);
+        if (!id) {
+          console.log(id);
+          res.send({ result: "Please Log in!" });
+        } else {
+          var row = getRow("./databases/main.db", "users", { uid: id });
+          console.log(row);
+          var data = JSON.parse(row.data);
+          data = JSON.stringify({ ...data, childOf: row.username });
+          var result = updateRow(
+            "./databases/main.db",
+            "users",
+            { uid: id },
+            { data: data }
+          );
+          res.send({ result: result });
+        }
       })
       .catch((err) => console.log(err));
   } else {

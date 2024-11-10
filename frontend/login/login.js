@@ -25,9 +25,11 @@ function storeLoginData() {
   $.getJSON(`${URL}/signin`, user, (data) => {
     localStorage.setItem("authKey", data.authKey);
     console.log(localStorage.getItem("authKey"));
+    if (data.result != "Wrong Info!") {
+      window.location.href = "../accounts/index.html";
+    }
   });
 
-  window.location.href = "../interactivemap/index.html";
   return false;
 }
 
