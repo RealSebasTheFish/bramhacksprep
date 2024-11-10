@@ -162,7 +162,7 @@ app.get("/addroute/", (req, res) => {
 io.on("connection", (socket) => {
   socket.on("get_location", (data) => {
     console.log(data)
-    ios.emit("send_location", JSON.stringify(data));
+    io.emit("send_location", JSON.stringify(data));
   })
 })
   
