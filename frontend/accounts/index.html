@@ -43,29 +43,49 @@
         <li><a href="/frontend/index.html">Home Page</a></li>
         <li><a href="/frontend/interactivemap/index.html">Map</a></li>
         <li><a href="/frontend/accounts/index.html">Accounts</a></li>
-        <!--<li><a href="/frontend/promo/index.html">Promotion</a></li>-->
       </ul>
     </div>
-    <div class="container">
-      <!-- main user profile and username  -->
-      <div class="main-profile">
-        <div class="profile-photo large-photo"></div>
-        <h2 class="username">Main User</h2>
-      </div>
 
-      <!-- sub accounts -->
-      <div class="sub-accounts">
-        <!-- test sub account for styling but delete for actual usage -->
-        <div class="sub-account">
-          <div class="profile-photo small-photo"></div>
-          <p class="username small-username">Sub Account 1</p>
-        </div>
-        <!-- add account button -->
-        <div class="add-account">
-          <button id="addAccountButton">+ Add Account</button>
-        </div>
-      </div>
+
+
+<!-- main Section -->
+<section class="main-section">
+  <!-- login div -->
+  <div class="login-div">
+    <h3>Enter dependent user's info to get authorized;</h3>
+    <form>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Email" required>
+
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" placeholder="Username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+
+      <button type="submit">Add Dependent User</button>
+    </form>
+  </div>
+
+  <div class="sections">
+    <!-- dependent users section -->
+    <div class="dependent-users">
+      <h3>Dependent Users:</h3>
+      <!-- content for dependent users -->
+      <p>List dependent users or actions here.</p>
     </div>
+
+    <!-- section for adding and removing routes -->
+    <div class="route-management">
+      <h3>Section for adding and removing routes</h3>
+      <!-- content for route management -->
+      <p>Manage routes here.</p>
+    </div>
+  </div>
+</section>
+
+
+
     <script src="script.js"></script>
   </body>
 </html>
