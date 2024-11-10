@@ -127,6 +127,8 @@ svg {
   top: 150px;
   right: 0px;
   padding: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 #navBar2 input {
@@ -171,4 +173,14 @@ svg {
   padding: 10px 15px;
   border-radius: 10px;
   border: solid 1px black;
+}
+#commuteDiv{
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  margin: 20px;
+}
+.formlable1{
+  align-self: center;
 }
