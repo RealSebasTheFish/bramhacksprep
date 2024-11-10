@@ -24,17 +24,14 @@
   <body>
     getting location
     <script>
-      function seccessCallback(position) {
-  // console.log(position.coords);
+      var socket = io(`${URL}`, { transports: ["websocket"] });
 
-  $.getJSON(
-    `${URL}/get-location`,
-    JSON.parse(JSON.stringify(position)),
-    (data) => {
-      console.log(data);
-    }
-  );
-}
+      function seccessCallback(position) {
+        // console.log(position.coords);
+        if (socket) {
+          socket.emit("get_location", JSON.parse(JSON.stringify(position)));
+        }
+      }
 
 function errCallback(error) {
   $.getJSON(`${URL}/get-location`, { error: error.message }, (data) => {

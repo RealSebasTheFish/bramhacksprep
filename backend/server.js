@@ -159,13 +159,15 @@ app.get("/addroute/", (req, res) => {
   });
 });
 
-app.get("/get-location", (req, res) => {
-  var location = req.query;
-  console.log(location);
-  io.emit("send_location", JSON.stringify(location));
+io.on("connection", (socket) => {
+  socket.on("get_location", (data) => {
+    console.log(data)
+    ios.emit("send_location", JSON.stringify(data));
+  })
+})
+  
   // on the frontend
   // 
-});
 
 /* Sample getTable
 sqllib.getTable("test", "users").then(function(result){
