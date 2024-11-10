@@ -31,9 +31,12 @@
     </style>
     <script>
       let map;
-      let marker;
+      let startMarker;
+      let endMarker;
       let geocoder;
-      let savedPlaceId = ""; // Variable to store the place ID
+      let savedPlaceId = "";
+      let start = false;
+      let end = false;
 
       const URL = "localhost:3000";
       const localTransitData = {};
@@ -61,8 +64,22 @@
         geocoder = new google.maps.Geocoder();
 
         map.addListener("click", function (event) {
-          placeMarker(event.latLng);
-          getPlaceId(event.latLng);
+          if (start) {
+            start = false;
+            placeStart(event.latLng);
+            getPlaceId(event.latLng).then((data) => {
+              console.log(data);
+            });
+          }
+
+          if (end) {
+            end = false;
+            placeEnd(event.latLng);
+            getPlaceId(event.latLng).then((data) => {
+              console.log(data);
+            });
+          }
+          
         });
 
         initializeRoutes();
@@ -152,29 +169,46 @@
         }
       }
 
-      function placeMarker(location) {
-        if (marker) {
-          marker.setPosition(location);
+      function placeStart(location) {
+        if (startMarker) {
+          startMarker.setPosition(location);
         } else {
-          marker = new google.maps.Marker({
+          startMarker = new google.maps.Marker({
             position: location,
             map: map,
           });
         }
       }
 
-      function getPlaceId(location) {
-        geocoder.geocode({ location: location }, function (results, status) {
-          if (status === "OK") {
-            if (results[0]) {
-              savedPlaceId = results[0].place_id;
-              console.log("Place ID:", savedPlaceId); // You can remove this or replace it with further processing logic
+      function placeEnd(location) {
+        if (endMarker) {
+          endMarker.setPosition(location);
+        } else {
+          endMarker = new google.maps.Marker({
+            position: location,
+            map: map,
+          });
+        }
+      }
+
+      function clearMarkers() {
+        startMarker.setMap(null);
+        endMarker.setMap(null);
+      }
+
+      async function getPlaceId(location) {
+        return new Promise((resolve, reject) => {geocoder.geocode({ location: location }, function (results, status) {
+            if (status === "OK") {
+              if (results[0]) {
+                resolve(results[0]);
+                console.log("Place ID:", savedPlaceId); // You can remove this or replace it with further processing logic
+              } else {
+                console.log("No results found");
+              }
             } else {
-              console.log("No results found");
+              console.log("Geocoder failed due to:", status);
             }
-          } else {
-            console.log("Geocoder failed due to:", status);
-          }
+          });
         });
       }
 
@@ -423,13 +457,13 @@
           />
         </svg>
         <h1>BramWays</h1>
-        <a href="/frontend/login/index.html"><button>Login/SignUp</button></a>
+        <a href="../login/index.html"><button>Login/SignUp</button></a>
       </div>
       <div id="sidebar">
         <ul>
-          <li><a href="/frontend/index.html">Home</a></li>
-          <li><a href="/frontend/interactivemap/index.html">Map</a></li>
-          <li><a href="/frontend/accounts/index.html">Accounts</a></li>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../interactivemap/index.html">Map</a></li>
+          <li><a href="../accounts/index.html">Accounts</a></li>
           <!--<li><a href="#">Promo</a></li>-->
         </ul>
       </div>
@@ -485,6 +519,7 @@
       oninput="onSearch();"
       placeholder="Search Bar"
     />
+    <div></div>
     <script>
       function openSidebar() {
         document.getElementById("sidebar").style.display = "flex";

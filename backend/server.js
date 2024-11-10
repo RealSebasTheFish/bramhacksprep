@@ -104,6 +104,18 @@ app.get("/linkchild", (req, res) => {
   }
 });
 
+app.get("/addroute/", (req,res) => {
+  var data = req.query;
+  authSession(data.key).then((auth) => {
+    if (auth == null) res.send(null);
+    var route = data.route;
+    var currData = getRow("main.db", "users", {"uid": auth});
+    currData = JSON.parse(currData["data"]);
+    currData["saved_routes"].push(route);
+    updateRow("main.db", "users", {"uid": auth}, {"data": JSON.stringify(currData)});
+  });
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log("Listening on port " + PORT);
