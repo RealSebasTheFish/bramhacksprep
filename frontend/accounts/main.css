@@ -274,4 +274,5 @@ body a:hover {
 #logo{
   border-radius: 35px;
   margin: 5px;
+  border: var(--dark-blue) 1px solid;
 }
