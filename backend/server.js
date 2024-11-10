@@ -161,7 +161,7 @@ app.get("/addroute/", (req, res) => {
 
 app.get("/get-location", (req, res) => {
   var location = req.query;
-  // console.log(location.coords);
+  console.log(location);
   io.emit("send_location", JSON.stringify(location));
   // on the frontend
   // 

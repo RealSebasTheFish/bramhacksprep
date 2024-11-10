@@ -28,25 +28,3 @@ function storeLoginData() {
   return false;
 }
 
-function seccessCallback(position) {
-  // console.log(position.coords);
-
-  $.getJSON(
-    `${URL}/get-location`,
-    JSON.parse(JSON.stringify(position)),
-    (data) => {
-      console.log(data);
-    }
-  );
-}
-
-function errCallback(error) {
-  $.getJSON(`${URL}/get-location`, { error: error.message }, (data) => {
-    console.log(data);
-  });
-}
-
-const watchId = navigator.geolocation.watchPosition(
-  seccessCallback,
-  errCallback
-);
