@@ -10,12 +10,44 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=drawing"></script>
-    <link rel="stylesheet" href="login.css" type="text/css" />
-    <meta charset="UTF-8" />
-    <title>Login Page</title>
+    <link rel="stylesheet" href="./login.css" type="text/css" />
+    <title>login Page</title>
     <script src="./login.js"></script>
   </head>
   <body>
+    <div class="header">
+      <svg
+        onclick="openSidebar()"
+        id="menuBtn"
+        xmlns="http://www.w3.org/2000/svg"
+        height="30"
+        viewBox="0 -960 960 960"
+        width="30"
+        fill="white"
+      >
+        <path
+          d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+        />
+      </svg>
+      <div style="display: flex; align-items: center;">
+        <a href="../index.html">
+            <img src="../asset/logo.png" alt="" width="50px" height="50px" id="logo">
+        </a>
+        <a href="../index.html" style="text-decoration: none; color: inherit;">
+            <h1 id="bordered">Bram<i>Ways</i></h1>
+        </a>
+    </div>
+      <img src="../asset/plain.jpeg" alt="" width="50px" height="50px">
+    </div>
+
+    <div id="sidebar">
+      <ul>
+        <li><a href="../index.html">Home Page</a></li>
+        <li><a href="../interactivemap/index.html">Interactive Map</a></li>
+        <li><a href="../accounts/index.html">Accounts</a></li>
+        <li><a href="../routecreation/index.html">Generating Route </a></li>
+      </ul>
+    </div>
     <div class="spacer"></div>
     <section class="vh-100">
       <div class="gradient-custom">
@@ -24,10 +56,11 @@
           <div id="loginForm">
             <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
             <p class="text-white-50 mb-4">Please enter your login details</p>
+            <br>
 
             <div class="form-outline form-white">
               <label class="form-label" for="loginUsernameEmail"
-                >Username/Email</label
+                >Username</label
               >
               <input type="text" id="loginUsernameEmail" class="form-control" />
             </div>
@@ -46,7 +79,7 @@
             </button>
             <p class="small mt-3">
               <a href="#" onclick="showForm('forgotPasswordForm')"
-                >Forgot Password?</a
+                ><br>Forgot Password?</a
               >
             </p>
             <p>
