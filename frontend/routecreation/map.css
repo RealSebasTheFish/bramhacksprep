@@ -225,3 +225,6 @@
   margin: 5px;
   border: var(--dark-blue) 1px solid;
 }
+#bordered{
+  -webkit-text-stroke: 1px rgb(255, 255, 255);
+}
