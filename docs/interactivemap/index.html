@@ -38,7 +38,7 @@
       let start = false;
       let end = false;
 
-      const URL = "https://42e5-2605-8d80-66a-9612-457f-de57-5b09-3c63.ngrok-free.app";
+      const URL = "http://42e5-2605-8d80-66a-9612-457f-de57-5b09-3c63.ngrok-free.app";
       const localTransitData = {};
       const searchqueries = {};
       var zcounter = 0;
@@ -103,7 +103,7 @@
 
       function initializeRoutes() {
         // Draw a route when the document is loaded with a sample route ID
-        $.getJSON(`http://${URL}/transitlabels/`, {}, async function (data) {
+        $.getJSON(`${URL}/transitlabels/`, {}, async function (data) {
           for (var i = 0; i < data.labels.length; i++) {
             routes[data.labels[i]] = await drawRoute(data.labels[i]);
             var entrydiv = document.createElement("div");
@@ -263,12 +263,12 @@
       async function drawRoute(route_id) {
         return new Promise((resolve, reject) => {
           $.getJSON(
-            `http://${URL}/transit/`,
+            `${URL}/transit/`,
             { route_id: route_id },
             function (dataO) {
               localTransitData[route_id] = dataO;
               $.getJSON(
-                `http://${URL}/transitlocations/`,
+                `${URL}/transitlocations/`,
                 { shapeids: dataO.shapeids },
                 (data) => {
                   var full_shape = [];

@@ -1,4 +1,4 @@
-const URL = "https://42e5-2605-8d80-66a-9612-457f-de57-5b09-3c63.ngrok-free.app";
+const URL = "http://42e5-2605-8d80-66a-9612-457f-de57-5b09-3c63.ngrok-free.app";
 
 //Login page frontend javascript for bramhacks (test)
 function showForm(formId) {
