@@ -96,11 +96,65 @@ svg {
   /* z-index: 1; */
 }
 
+.navIcon {
+  color: white;
+  cursor: pointer;
+  font-size: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 25px;
+  background-color: var(--dark-blue);
+  position: fixed;
+  right: -30px;
+  z-index: 100;
+  top: 24%;
+}
+
+#navBar2 {
+  display: none;
+  flex-direction: column;
+  justify-content: start;
+  width: 250px;
+  height: 400px;
+  background-color: var(--mid-blue);
+  position: fixed;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  z-index: 10;
+  top: 150px;
+  right: 0px;
+  padding: 10px;
+}
+
+#navBar2 input {
+  padding: 10px;
+  margin: 10px 0px;
+}
+
+.Btn1 {
+  color: var(--bright);
+  background-color: var(--dark-blue);
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin: 1px;
+  border-radius: 10px;
+}
+
+.navIcon svg {
+  margin-right: 20px;
+}
+
 #search_bar_div {
   position: fixed;
   bottom: 55px;
   left: 10px;
   overflow: auto;
+  text-wrap: wrap;
+  width: 180px;
   height: 100px;
   padding: 10px 15px;
   border-radius: 10px;
