@@ -133,10 +133,18 @@ app.get("/addroute/", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   var data = req.query;
   authSession(data.key).then((auth) => {
-    if (auth == null)
+    if (auth == null) 
+    {
       res.send(`${req.query.callback}(${JSON.stringify({ result: null })})`);
+      return;
+    }
     var route = data.route;
     var currData = getRow("./databases/main.db", "users", { uid: auth });
+    console.log(currData);
+    if (currData == "user not found") {
+      res.send(`${req.query.callback}(${JSON.stringify({ result: null })})`);
+      return;
+    }
     // console.log(currData);
     currData = JSON.parse(currData["data"]);
     currData["saved_routes"].push(route);
@@ -156,15 +164,7 @@ app.get("/get-location", (req, res) => {
   // console.log(location.coords);
   io.emit("send_location", JSON.stringify(location));
   // on the frontend
-  // <script
-  //   src="https://cdn.socket.io/4.8.0/socket.io.min.js"
-  //   integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
-  //   crossorigin="anonymous"
-  // ></script>;
-  // var socket = io("http://localhost:3000", { transports: ["websocket"] });
-  // socket.on("send_location", (data) => {
-  //   console.log(JSON.parse(data));
-  // });
+  // 
 });
 
 /* Sample getTable
