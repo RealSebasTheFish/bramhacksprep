@@ -10,7 +10,7 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=places&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y&libraries=places,geometry,marker&callback=initMap"
       async
       defer
     ></script>
@@ -65,20 +65,25 @@
 
         map.addListener("click", function (event) {
           if (start) {
-            start = false;
             placeStart(event.latLng);
             getPlaceId(event.latLng).then((data) => {
-              console.log(data);
+              markStart();
+              var address = data["address_components"];
+              console.log(address)
+              document.getElementById("positionStartText").value = address[0]["short_name"] + " " + address[1]["short_name"] + " " + address[2]["short_name"] + " " + address[3]["short_name"]
+          
             });
-          }
+           }
 
           if (end) {
-            end = false;
             placeEnd(event.latLng);
             getPlaceId(event.latLng).then((data) => {
-              console.log(data);
+              markEnd();
+              var address = data["address_components"];
+              document.getElementById("positionEndText").value = address[0]["short_name"] + " " + address[1]["short_name"] + " " + address[2]["short_name"] + " " + address[3]["short_name"]
+          
             });
-          }
+            }
           
         });
 
@@ -143,6 +148,42 @@
         }
       }
 
+      function markStart() {
+        var myBtn = document.getElementById("markerStartBtn");
+        if (!start) {
+          // Need to enable
+          if (end) {
+            markEnd()
+          }
+          myBtn.style.backgroundColor = "red";
+          myBtn.textContent = "Click to Cancel"
+          start = true;
+        }
+        else {
+          myBtn.style.backgroundColor = "#133E87";
+          myBtn.textContent = "Select Start Point"
+          start = false;
+        }
+      }
+
+      function markEnd() {
+        var myBtn = document.getElementById("markerEndBtn");
+        if (!end) {
+          // Need to enable
+          if (start) {
+            markStart()
+          }
+          myBtn.style.backgroundColor = "red";
+          myBtn.textContent = "Click to Cancel"
+          end = true;
+        }
+        else {
+          myBtn.style.backgroundColor = "#133E87";
+          myBtn.textContent = "Select End Point"
+          end = false;
+        }
+      }
+
       function onSearch() {
         var query = document.getElementById("search_bar").value;
         var queries = Object.keys(searchqueries);
@@ -173,9 +214,11 @@
         if (startMarker) {
           startMarker.setPosition(location);
         } else {
+          // Create a marker and apply the element.
           startMarker = new google.maps.Marker({
+            map,
             position: location,
-            map: map,
+            title: "Start"
           });
         }
       }
@@ -185,8 +228,9 @@
           endMarker.setPosition(location);
         } else {
           endMarker = new google.maps.Marker({
+            map,
             position: location,
-            map: map,
+            title: "End"
           });
         }
       }
@@ -487,11 +531,11 @@
         </svg>
       </div>
       <div id="navBar2">
-        <button class="Btn1">Select Start Point</button>
-        <input class="input1" type="text" readonly />
+        <button class="Btn1" id="markerStartBtn" onclick="markStart();">Select Start Point</button>
+        <input class="input1" id="positionStartText" type="text" readonly />
 
-        <button class="Btn1">Select End Point</button>
-        <input class="input1" type="text" readonly />
+        <button class="Btn1" id ="markerEndBtn" onclick="markEnd();">Select End Point</button>
+        <input class="input1" id="positionEndText" type="text" readonly />
 
         <div class="form-outline form-white" id="commuteDiv">
           <label class="form-label1" for="">Commute Type</label>
