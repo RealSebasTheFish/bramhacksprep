@@ -112,13 +112,19 @@
     z-index: 100;
     top: 24%;
   }
-  
+
+  .routeentry {
+    background-color: antiquewhite;
+    padding: 1vw;
+  }
+
   #navBar2 {
     display: none;
     flex-direction: column;
     justify-content: start;
     width: 250px;
     height: 400px;
+    overflow: auto;
     background-color: var(--mid-blue);
     position: fixed;
     border-top-left-radius: 15px;
@@ -194,6 +200,11 @@
     max-width: 500px;
     margin: 0 auto;
   }
+
+  #postgen {
+    display: none;
+  }
+
   .GenRoute{
     color: var(--dark-blue);
     background-color: var(--bright);
