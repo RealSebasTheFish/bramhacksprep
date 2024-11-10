@@ -101,21 +101,22 @@ app.get("/linkchild", (req, res) => {
     var authKey = req.query.parent.authKey;
     var id = authSession(authKey)
       .then((data) => {
-        if (!data) {
-          console.log(data);
-          res.send({ result: "Please Log in!" });
-        } else {
-          var row = getRow("./databases/main.db", "users", { uid: id });
-          var data = JSON.parse(row.data);
-          data = JSON.stringify({ ...data, childOf: row.username });
-          var result = updateRow(
-            "./databases/main.db",
-            "users",
-            { uid: id },
-            { data: data }
-          );
-          res.send({ result: result });
-        }
+        console.log(data);
+        // if (!data) {
+        //   console.log(data);
+        //   res.send({ result: "Please Log in!" });
+        // } else {
+        //   var row = getRow("./databases/main.db", "users", { uid: id });
+        //   var data = JSON.parse(row.data);
+        //   data = JSON.stringify({ ...data, childOf: row.username });
+        //   var result = updateRow(
+        //     "./databases/main.db",
+        //     "users",
+        //     { uid: id },
+        //     { data: data }
+        //   );
+        //   res.send({ result: result });
+        // }
       })
       .catch((err) => console.log(err));
   } else {
