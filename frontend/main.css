@@ -220,3 +220,10 @@ body {
 #bordered{
   -webkit-text-stroke: 1px rgb(255, 255, 255);
 }
+.emergency-button {
+    width: 24px;
+    height: 24px;
+    width: 100%;
+    position: fixed;
+    
+}
