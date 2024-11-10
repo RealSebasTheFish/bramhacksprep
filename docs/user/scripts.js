@@ -1,4 +1,4 @@
-const URL = "http://localhost:3000";
+const URL = "https://42e5-2605-8d80-66a-9612-457f-de57-5b09-3c63.ngrok-free.app";
 
 function hashPassword(password) {
   const hash = CryptoJS.SHA256(password);
