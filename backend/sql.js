@@ -75,7 +75,7 @@ function getRow(dBase, table, user) {
     // console.log(error.message);
     return error.message;
   }
-  if (row == undefined) {
+  if (!row) {
     return "user not found";
   }
   return row;

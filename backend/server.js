@@ -75,11 +75,11 @@ app.get("/signup/", (req, res) => {
   if (resultArr[0] == "UNIQUE constraint failed") {
     // console.log("choose a different " + resultArr[1].split(".")[1]);
     res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
-  }else {
+  } else {
     createSession(user.uid)
       .then((authKey) => {
         console.log(authKey);
-        res.send({ result: "User added!", authKey: authKey});
+        res.send({ result: "User added!", authKey: authKey });
       })
       .catch((err) => {
         console.log(err.message);
@@ -94,36 +94,53 @@ app.get("/signup/", (req, res) => {
 app.get("/linkchild", (req, res) => {
   var child = req.query.child; // format of info: {parent: {authKey: someValue}, child: {username: , email: , password}}
   var isInDb = getRow("./databases/main.db", "users", child);
-  if (child == isInDb) {
+  if (
+    child.username === isInDb.username &&
+    child.password === isInDb.password
+  ) {
     var authKey = req.query.parent.authKey;
-    var id = authSession(authKey);
-    var row = getRow("./databases/main.db", "users", { uid: id });
-    var data = JSON.parse(row.data);
-    data = JSON.stringify({ ...data, childOf: row.username });
-    var result = updateRow(
-      "./databases/main.db",
-      "users",
-      { uid: id },
-      { data: data }
-    );
-    res.send({ result: result });
+    var id = authSession(authKey)
+      .then((data) => {
+        if (!data) {
+          console.log(data);
+          res.send({ result: "Please Log in!" });
+        } else {
+          var row = getRow("./databases/main.db", "users", { uid: id });
+          var data = JSON.parse(row.data);
+          data = JSON.stringify({ ...data, childOf: row.username });
+          var result = updateRow(
+            "./databases/main.db",
+            "users",
+            { uid: id },
+            { data: data }
+          );
+          res.send({ result: result });
+        }
+      })
+      .catch((err) => console.log(err));
   } else {
     res.send({ result: "child account not found!" });
   }
 });
 
-app.get("/addroute/", (req,res) => {
+app.get("/addroute/", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Content-Type", "application/json")
+  res.setHeader("Content-Type", "application/json");
   var data = req.query;
   authSession(data.key).then((auth) => {
-    if (auth == null) res.send(`${req.query.callback}(${JSON.stringify({ result: null })})`);
+    if (auth == null)
+      res.send(`${req.query.callback}(${JSON.stringify({ result: null })})`);
     var route = data.route;
-    var currData = getRow("./databases/main.db", "users", {"uid": auth});
+    var currData = getRow("./databases/main.db", "users", { uid: auth });
     // console.log(currData);
     currData = JSON.parse(currData["data"]);
     currData["saved_routes"].push(route);
-    var result = updateRow("./databases/main.db", "users", {"uid": auth}, {"data": JSON.stringify(currData)});
+    var result = updateRow(
+      "./databases/main.db",
+      "users",
+      { uid: auth },
+      { data: JSON.stringify(currData) }
+    );
     console.log(result);
     res.send(`${req.query.callback}(${JSON.stringify({ result: "Success" })})`);
   });
