@@ -87,14 +87,13 @@
           
         });
 
-        initializeRoutes();
-
-        getDestRoute(
+        // TESTING ROUTES
+        /*getDestRoute(
           { lat: 43.984523, long: -79.469344 },
           { lat: 44.047122, long: -79.427391 }
         ).then((data) => {
           drawDestRoute(data);
-        });
+        });*/
       }
       
       function generateRoute() {
@@ -557,17 +556,7 @@
 
       </div>
       <div id="map"></div>
-      <div id="search_bar_div">
-        <div id="searchresults"></div>
-      </div>
     </div>
-    <input
-      type="text"
-      class="search_bar"
-      id="search_bar"
-      oninput="onSearch();"
-      placeholder="Search Bar"
-    />
     <div></div>
     <script>
       function openSidebar() {
