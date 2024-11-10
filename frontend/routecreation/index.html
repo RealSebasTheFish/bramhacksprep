@@ -38,7 +38,7 @@
       let start = false;
       let end = false;
 
-      const URL = "localhost:3000";
+      const URL = "http://localhost:3000";
       const localTransitData = {};
       const searchqueries = {};
       var zcounter = 0;
@@ -99,7 +99,20 @@
       }
       
       function saveRoute() {
-        
+        $.ajax({
+          url: `${URL}/addroute/`,
+          dataType: "jsonp",
+          data: {key: localStorage.getItem("authKey"), route: currentRoute},
+          success: (data) => {
+            console.log(data);
+            if (data.result == null) {
+              alert("Please log in.");
+            } else {
+              console.log("here!")
+              discardRoute();
+            }
+          }
+        });
       }
 
       function discardRoute() {

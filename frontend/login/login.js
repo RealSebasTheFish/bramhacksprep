@@ -23,10 +23,11 @@ function storeLoginData() {
     password: shaPassword,
   };
   $.getJSON(`${URL}/signin`, user, (data) => {
-    console.log(data.result);
     localStorage.setItem("authKey", data.authKey);
     console.log(localStorage.getItem("authKey"));
   });
+
+  window.location.href = "../interactivemap/index.html";
   return false;
 }
 
@@ -46,8 +47,10 @@ function storeSignUpData() {
   };
 
   $.getJSON(`${URL}/signup`, user, (data) => {
-    console.log(data.result);
+    localStorage.setItem("authKey", data.authKey);
+    console.log(localStorage.getItem("authKey"));
   });
+  window.location.href = "../interactivemap/index.html";
   return false;
 }
 

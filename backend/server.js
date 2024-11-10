@@ -75,8 +75,16 @@ app.get("/signup/", (req, res) => {
   if (resultArr[0] == "UNIQUE constraint failed") {
     // console.log("choose a different " + resultArr[1].split(".")[1]);
     res.send({ result: "choose a different " + resultArr[1].split(".")[1] });
+  }else {
+    createSession(user.uid)
+      .then((authKey) => {
+        console.log(authKey);
+        res.send({ result: "User added!", authKey: authKey});
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
-  res.send({ result: "User added!" });
 });
 
 // this gets called from and Adult account;
@@ -105,14 +113,19 @@ app.get("/linkchild", (req, res) => {
 });
 
 app.get("/addroute/", (req,res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "application/json")
   var data = req.query;
   authSession(data.key).then((auth) => {
-    if (auth == null) res.send(null);
+    if (auth == null) res.send(`${req.query.callback}(${JSON.stringify({ result: null })})`);
     var route = data.route;
-    var currData = getRow("main.db", "users", {"uid": auth});
+    var currData = getRow("./databases/main.db", "users", {"uid": auth});
+    // console.log(currData);
     currData = JSON.parse(currData["data"]);
     currData["saved_routes"].push(route);
-    updateRow("main.db", "users", {"uid": auth}, {"data": JSON.stringify(currData)});
+    var result = updateRow("./databases/main.db", "users", {"uid": auth}, {"data": JSON.stringify(currData)});
+    console.log(result);
+    res.send(`${req.query.callback}(${JSON.stringify({ result: "Success" })})`);
   });
 });
 
