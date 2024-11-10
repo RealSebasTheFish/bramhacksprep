@@ -128,12 +128,15 @@ svg {
   right: 0px;
   padding: 10px;
   align-items: center;
-  justify-content: center;
+  border: var(--dark-blue) 2px ridge;
 }
 
 #navBar2 input {
   padding: 10px;
   margin: 10px 0px;
+  margin-bottom: 30px;
+  border: #0b2858 solid 3px;
+  border-radius: 3px;
 }
 
 .Btn1 {
@@ -174,13 +177,34 @@ svg {
   border-radius: 10px;
   border: solid 1px black;
 }
-#commuteDiv{
-  align-self: center;
-  align-items: center;
+#commuteDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
   justify-content: center;
-  width: 200px;
-  margin: 20px;
+  text-align: center;
 }
-.formlable1{
-  align-self: center;
+
+.form-label1 {
+  margin-bottom: 6px;
+}
+
+.form-control {
+  width: 100%; 
+  max-width: 500px;
+  margin: 0 auto;
+}
+.GenRoute{
+  color: var(--dark-blue);
+  background-color: var(--bright);
+  font-weight: bold;
+  font-size: 20;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin: 1px;
+  border-radius: 10px;
+  width: 200px;
+  margin-top: 40px;
+  border: var(--dark-blue) dashed 2px;
 }
