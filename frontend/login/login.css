@@ -10,6 +10,8 @@ body {
 
 #logo{
   border-radius: 35px;
+  margin: 5px;
+  border: var(--dark-blue) 1px solid;
 }
 * {
   margin: 0;
@@ -190,3 +192,6 @@ html {
  #loginForm h2 p{
   margin: 4px;
  }
+ #bordered{
+  -webkit-text-stroke: 1px rgb(255, 255, 255);
+}
