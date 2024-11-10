@@ -1,4 +1,4 @@
-const sqlite3 = require("sqlite3");
+const socketio = require("socket.io");
 const transitLabels = require("./transitlabels.json");
 const transitData = require("./transitdata.json");
 const {
@@ -18,7 +18,12 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = 3000;
+
 app.use(cors());
+const server = app.listen(PORT, function () {
+  console.log("Listening on port " + PORT);
+});
+const io = socketio(server);
 app.use(express.json()); // Middleware for JSON parsing
 
 app.get("/transitlabels/", (req, res) => {
@@ -146,9 +151,20 @@ app.get("/addroute/", (req, res) => {
   });
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log("Listening on port " + PORT);
+app.get("/get-location", (req, res) => {
+  var location = req.query;
+  // console.log(location.coords);
+  io.emit("send_location", JSON.stringify(location));
+  // on the frontend
+  // <script
+  //   src="https://cdn.socket.io/4.8.0/socket.io.min.js"
+  //   integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd"
+  //   crossorigin="anonymous"
+  // ></script>;
+  // var socket = io("http://localhost:3000", { transports: ["websocket"] });
+  // socket.on("send_location", (data) => {
+  //   console.log(JSON.parse(data));
+  // });
 });
 
 /* Sample getTable
