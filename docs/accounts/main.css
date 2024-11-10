@@ -279,3 +279,47 @@ body a:hover {
 #bordered{
   -webkit-text-stroke: 1px rgb(255, 255, 255);
 }
+footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: transparent;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  z-index: 10;
+}
+
+footer .footer-content {
+  font-size: 1rem;
+}
+
+footer a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+#emergencyBtn {
+  position: fixed;     
+  bottom: 20px;       
+  right: 20px;         
+  z-index: 10000;      
+}
+
+#emergencyBtn button {
+  background-color: red;
+  color: white;
+  font-size: 1.2rem;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+#emergencyBtn button:hover {
+  background-color: darkred;
+}
