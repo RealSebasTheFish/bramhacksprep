@@ -44,7 +44,7 @@
       var zcounter = 0;
       var routes = {};
       var currentRoute;
-      var currentRoutePolyline;
+      var currentRoutePolyline = [];
 
       function initMap() {
         console.log("Initializing map...");
@@ -98,6 +98,26 @@
         });*/
       }
       
+      function saveRoute() {
+        
+      }
+
+      function discardRoute() {
+          currentRoute = null;
+          for (var i = 0; i < currentRoutePolyline.length; i++) {
+            currentRoutePolyline[i].setMap(null);
+          }
+          //currentRoutePolyline = [];
+          document.getElementById("postgen").style.display = "none";
+          document.getElementById("pregen").style.display = "block";
+          startMarker.setMap(null);
+          endMarker.setMap(null);
+          document.getElementById("positionStartText").value = "";
+          document.getElementById("positionEndText").value = "";
+          start = false;
+          end = false;
+      }
+
       function generateRoute() {
         start = startMarker.position;
         end = endMarker.position;
@@ -106,7 +126,6 @@
           getDestRoute(start, end, type).then((data) => {
             currentRoute = data;
             drawDestRoute(data).then((response) => {
-              currentRoutePolyline = response;
               document.getElementById("pregen").style.display = "none";
               document.getElementById("postgen").style.display = "block";
               loadRouteData();
@@ -267,28 +286,23 @@
       }
 
       function placeStart(location) {
-        if (startMarker) {
-          startMarker.setPosition(location);
-        } else {
-          // Create a marker and apply the element.
-          startMarker = new google.maps.Marker({
-            map,
-            position: location,
-            title: "Start"
-          });
-        }
+
+        startMarker = new google.maps.Marker({
+          map,
+          position: location,
+          title: "Start"
+        });
+        
       }
 
       function placeEnd(location) {
-        if (endMarker) {
-          endMarker.setPosition(location);
-        } else {
-          endMarker = new google.maps.Marker({
-            map,
-            position: location,
-            title: "End"
-          });
-        }
+
+        endMarker = new google.maps.Marker({
+          map,
+          position: location,
+          title: "End"
+        });
+        
       }
 
       function clearMarkers() {
@@ -367,10 +381,10 @@
 
       async function drawDestRoute(route) {
         return new Promise((resolve, reject) => {
+          var transitcounter = 0;
           for (var i = 0; i < route.length; i++) {
             var currSec = route[i];
             const transit_colors = ["#8932a8", "#e600ff", "#ba2f93"]
-            var transitcounter = 0;
             var color = null;
             if (currSec["type"] == "walk") currentRoute[i]["color"] = "#4444FF";
             else if (currSec["type"] == "transit") {
@@ -399,13 +413,15 @@
               strokeWeight: 4,
             });
             routePolyline.setMap(map);
-            resolve(routePolyline);
+            currentRoutePolyline.push(routePolyline);
           }
+          resolve();
         })
         
       }
 
       async function getDestRoute(start, end, mode) {
+        console.log(mode);
         return new Promise((resolve, reject) => {
           const jsonData = {
             origin: {
@@ -434,8 +450,11 @@
             },
             languageCode: "en-US",
             units: "METRIC",
-            departureTime: new Date().toISOString(),
           };
+
+          if (mode == "TRANSIT") {
+            jsonData["departureTime"] = new Date().toISOString();
+          }
 
           // Set headers as needed
           const headers = {
@@ -615,8 +634,8 @@
           <button class="GenRoute" onclick="generateRoute();">Generate Route!</button>
         </div>
         <div id="postgen">
-          <button>Save route</button>
-          <button>Discard route</button>
+          <button onclick="saveRoute()">Save route</button>
+          <button onclick="discardRoute()">Discard route</button>
         </div>
       </div>
       <div id="map"></div>
