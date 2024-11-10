@@ -45,18 +45,9 @@
       var routes = {};
       var currentRoute;
       var currentRoutePolyline = [];
-      
-      
-    var socket = io(`${URL}`, { transports: ["websocket"] });
-    socket.on("send_location", (data) => {
-      console.log(JSON.parse(data));
-    });
-    function initMap() {
-      $(document).on("ready", () => {
-        initMap2();
-      })
-    }
-      function initMap2() {
+
+
+      function initMap() {
         console.log("Initializing map...");
         const center = { lat: 43.7735, lng: -79.5019 };
 
