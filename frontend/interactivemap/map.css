@@ -208,3 +208,9 @@ svg {
   margin-top: 40px;
   border: var(--dark-blue) dashed 2px;
 }
+
+
+#logo{
+  border-radius: 35px;
+  margin: 5px;
+}

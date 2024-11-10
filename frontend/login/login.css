@@ -10,6 +10,7 @@ body {
 
 #logo{
   border-radius: 35px;
+  margin: 5px;
 }
 * {
   margin: 0;

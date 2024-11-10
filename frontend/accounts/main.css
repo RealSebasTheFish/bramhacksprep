@@ -100,8 +100,8 @@ body {
   align-items: center;
   padding: 20px;
   background-image: url("../asset/account.jpg");
-    background-attachment: fixed;
-    background-size: contain;
+  background-attachment: fixed;
+  background-size: cover;
   min-height: 100vh;
   width: 100%;
 }
@@ -269,4 +269,9 @@ body {
 
 body a:hover {
   text-decoration: none;
+}
+
+#logo{
+  border-radius: 35px;
+  margin: 5px;
 }
