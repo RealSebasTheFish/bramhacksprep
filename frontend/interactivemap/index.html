@@ -84,7 +84,10 @@
 
         initializeRoutes();
 
-        getDestRoute({lat: 43.984523, long: -79.469344},{lat: 44.047122, long: -79.427391}).then((data) => {
+        getDestRoute(
+          { lat: 43.984523, long: -79.469344 },
+          { lat: 44.047122, long: -79.427391 }
+        ).then((data) => {
           drawDestRoute(data);
         });
       }
@@ -263,17 +266,19 @@
       }
 
       function drawDestRoute(route) {
-        console.log(route)
+        console.log(route);
         for (var i = 0; i < route.length; i++) {
           var currSec = route[i];
           var color = null;
           if (currSec["type"] == "walk") color = "#4444FF";
           if (currSec["type"] == "transit") color = "#FF0000";
-          else color = "#00FF00"
-          
-          var coords = []
+          else color = "#00FF00";
+
+          var coords = [];
           for (var j = 0; j < currSec["polylines"].length; j++) {
-            var decodedPath = google.maps.geometry.encoding.decodePath(currSec["polylines"][j]);
+            var decodedPath = google.maps.geometry.encoding.decodePath(
+              currSec["polylines"][j]
+            );
             for (var k = 0; k < decodedPath.length; k++) {
               coords.push(decodedPath[k]);
             }
@@ -298,17 +303,17 @@
               location: {
                 latLng: {
                   latitude: start.lat,
-                  longitude: start.long
-                }
-              }
+                  longitude: start.long,
+                },
+              },
             },
             destination: {
               location: {
                 latLng: {
                   latitude: end.lat,
-                  longitude: end.long
-                }
-              }
+                  longitude: end.long,
+                },
+              },
             },
             travelMode: "TRANSIT",
             // routingPreference: "TRAFFIC_AWARE", // Uncomment if needed
@@ -316,29 +321,30 @@
             routeModifiers: {
               avoidTolls: false,
               avoidHighways: false,
-              avoidFerries: false
+              avoidFerries: false,
             },
             languageCode: "en-US",
             units: "METRIC",
-            departureTime: new Date().toISOString()
+            departureTime: new Date().toISOString(),
           };
 
           // Set headers as needed
           const headers = {
-              "X-Goog-FieldMask": "routes.legs,routes.distanceMeters,routes.polyline.encodedPolyline",
-              "Content-Type": "application/json"
-          }
+            "X-Goog-FieldMask":
+              "routes.legs,routes.distanceMeters,routes.polyline.encodedPolyline",
+            "Content-Type": "application/json",
+          };
 
           $.ajax({
             url: "https://routes.googleapis.com/directions/v2:computeRoutes?key=AIzaSyC7ftdf2Kqclh1iBAQpKjmOMqfUrGQAN2Y",
             method: "POST",
             headers: headers,
             data: JSON.stringify(jsonData),
-            success: function(data) {
+            success: function (data) {
               const routeSteps = data.routes[0].legs[0].steps;
               const output = [];
 
-              routeSteps.forEach(step => {
+              routeSteps.forEach((step) => {
                 const travelMode = step.travelMode;
 
                 if (travelMode === "WALK" || travelMode === "BICYCLE") {
@@ -348,14 +354,14 @@
                     path: [
                       {
                         latitude: step.startLocation.latLng.latitude,
-                        longitude: step.startLocation.latLng.longitude
+                        longitude: step.startLocation.latLng.longitude,
                       },
                       {
                         latitude: step.endLocation.latLng.latitude,
-                        longitude: step.endLocation.latLng.longitude
-                      }
+                        longitude: step.endLocation.latLng.longitude,
+                      },
                     ],
-                    polylines: [step.polyline.encodedPolyline]
+                    polylines: [step.polyline.encodedPolyline],
                   });
                 } else if (travelMode === "TRANSIT") {
                   output.push({
@@ -363,23 +369,31 @@
                     duration: parseInt(step.staticDuration),
                     start: {
                       name: step.transitDetails.stopDetails.departureStop.name,
-                      time: step.transitDetails.stopDetails.departureTime
+                      time: step.transitDetails.stopDetails.departureTime,
                     },
                     finish: {
                       name: step.transitDetails.stopDetails.arrivalStop.name,
-                      time: step.transitDetails.stopDetails.arrivalTime
+                      time: step.transitDetails.stopDetails.arrivalTime,
                     },
                     path: [
                       {
-                        latitude: step.transitDetails.stopDetails.departureStop.location.latLng.latitude,
-                        longitude: step.transitDetails.stopDetails.departureStop.location.latLng.longitude
+                        latitude:
+                          step.transitDetails.stopDetails.departureStop.location
+                            .latLng.latitude,
+                        longitude:
+                          step.transitDetails.stopDetails.departureStop.location
+                            .latLng.longitude,
                       },
                       {
-                        latitude: step.transitDetails.stopDetails.arrivalStop.location.latLng.latitude,
-                        longitude: step.transitDetails.stopDetails.arrivalStop.location.latLng.longitude
-                      }
+                        latitude:
+                          step.transitDetails.stopDetails.arrivalStop.location
+                            .latLng.latitude,
+                        longitude:
+                          step.transitDetails.stopDetails.arrivalStop.location
+                            .latLng.longitude,
+                      },
                     ],
-                    polylines: [step.polyline.encodedPolyline]
+                    polylines: [step.polyline.encodedPolyline],
                   });
                 }
               });
@@ -397,7 +411,7 @@
                       type: item.type,
                       duration: current.duration + item.duration,
                       path: current.path,
-                      polylines: current.polylines
+                      polylines: current.polylines,
                     };
                     current.path.push(item.path[1]);
                     current.polylines.push(item.polylines[0]);
@@ -418,14 +432,12 @@
 
               resolve(refit); // Final processed output
             },
-            error: function(error) {
+            error: function (error) {
               reject(error);
-            }
+            },
           });
         });
       }
-
-      
     </script>
   </head>
   <body>
@@ -455,6 +467,31 @@
           <!--<li><a href="#">Promo</a></li>-->
         </ul>
       </div>
+      <div onclick="openNavRight()" class="navIcon" id="navIcon">
+        <svg
+          class="w-6 h-6 text-gray-800 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h14M5 12l4-4m-4 4 4 4"
+          />
+        </svg>
+      </div>
+      <div id="navBar2">
+        <input class="input1" type="text" readonly />
+        <button class="Btn1">Select Start Point</button>
+        <input class="input1" type="text" readonly />
+        <button class="Btn1">Select End Point</button>
+      </div>
       <div id="map"></div>
       <div id="search_bar_div">
         <div id="searchresults"></div>
@@ -481,6 +518,47 @@
         document
           .getElementById("menuBtn")
           .setAttribute("onclick", "openSidebar()");
+      }
+
+      function openNavRight() {
+        document.getElementById("navBar2").style.display = "flex";
+        document.getElementById(
+          "navIcon"
+        ).innerHTML = `<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+        </svg>
+        `;
+        document.getElementById("navIcon").removeAttribute("onclick");
+        document
+          .getElementById("navIcon")
+          .addEventListener("click", closeNavRight);
+      }
+
+      function closeNavRight() {
+        document
+          .getElementById("navIcon")
+          .removeEventListener("click", closeNavRight);
+        document
+          .getElementById("navIcon")
+          .addEventListener("click", openNavRight);
+        document.getElementById("navBar2").style.display = "none";
+        document.getElementById("navIcon").innerHTML = `<svg
+                class="w-6 h-6 text-gray-800 dark:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 12h14M5 12l4-4m-4 4 4 4"
+                />
+              </svg>`;
       }
     </script>
   </body>
